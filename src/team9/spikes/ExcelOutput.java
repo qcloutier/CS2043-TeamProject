@@ -1,15 +1,26 @@
-package team9.spikes;//This file was used to test how to write excel files.
+package team9.spikes;
 
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/*
+ * This file was used to test how to write excel files.
+ */
 public class ExcelOutput{
 
 	public static void main(String[] args) throws IOException{
-		Workbook w = new HSSFWorkbook();//creates a workbook
+		
+		Workbook w = new XSSFWorkbook();//creates a workbook
 		Sheet s = w.createSheet("Test");//creates a sheet in the workbook
 		
 		CellStyle white = w.createCellStyle();//creates styles for black and white cells
@@ -41,10 +52,11 @@ public class ExcelOutput{
 			}
 		}
 		
-		FileOutputStream out = new FileOutputStream("testOutput.xls");
+		FileOutputStream out = new FileOutputStream("demo/TestOutput.xlsx");
 		w.write(out);
 		
 		out.close();//FileOutputStream is closed before the workbook is closed.
 		w.close();
 	}
+	
 }

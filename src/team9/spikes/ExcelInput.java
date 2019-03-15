@@ -15,11 +15,11 @@ import java.util.Iterator;
  * Testing that I can read input from the second sheet of an .xlsx workbook with titles, a number 
  * in its first row of data and different numbers of strings in the rows beneath, similar to our rank schema.
  */
-public class InputSpike {
+public class ExcelInput {
 
     public static void main(String[] args) {
     	
-    	final String FILENAME="demo/testsheet.xlsx";
+    	final String FILENAME="demo/TestInput.xlsx";
     	
     	try {
     		FileInputStream excelFile = new FileInputStream(new File(FILENAME));
