@@ -1,7 +1,13 @@
 package team9.transcriptanalyzer.input;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * Defines the ranking schema from the configuration file.
@@ -9,12 +15,33 @@ import java.util.List;
  */
 public class RankSchema extends Schema {
 
+	public static void main(String[]args) throws Exception {
+		Workbook wb = new XSSFWorkbook(new File("demo/IO Spec Input.xlsx"));
+		RankSchema gs = new RankSchema(wb.getSheet("Rank Schema"));
+		System.out.println(gs);
+	}
+	
 	private List<RankLevel> levels;
 	
-	public RankSchema(String file) {
+	public RankSchema(Sheet rankSchema) {
 		super();
-		
 		levels = new ArrayList<RankLevel>();
+
+		Row names = rankSchema.getRow(0);
+		Row hours = rankSchema.getRow(1);
+		
+		List<Row> courses = new ArrayList<Row>();
+		for (int i=2; i<rankSchema.getLastRowNum(); i++) {
+			courses.add(rankSchema.getRow(i));
+		}
+		
+		for (int i=0; i<names.getLastCellNum(); i++) {
+			addLevel(
+				names.getCell(i).getStringCellValue(), 
+				(int)hours.getCell(i).getNumericCellValue(), 
+				null
+			);
+		}
 	}
 	
 	public void addLevel(String name, int minCreditHours, List<ConfigCourse> requiredCourses) {
