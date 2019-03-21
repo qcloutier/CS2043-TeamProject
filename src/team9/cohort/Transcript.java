@@ -23,7 +23,7 @@ public class Transcript{
 		FileInputStream fis =new FileInputStream(file);
 		//courses=TranscriptReader(fis); This ain't exist yet
 		fis.close();
-		courses.add(new TranscriptCourse("Whatever","Whoever"));
+		//courses.add(new TranscriptCourse("Whatever","Whoever"));
 	}
 	
 	public ArrayList<TranscriptCourse> getCourses(){
