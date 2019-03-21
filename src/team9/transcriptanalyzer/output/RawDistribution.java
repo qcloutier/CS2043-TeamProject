@@ -20,11 +20,11 @@ public class RawDistribution extends Distribution{
 		entries = new ArrayList<RawEntry>();
 	}
 	
-	public void addEntry(ConfigCourse course, List<Integer> values) {
+	private void addEntry(ConfigCourse course, List<Integer> values) {
 		entries.add(new RawEntry(course, values));
 	}
 	
-	public void calculate() {
+	public void calculate(Configuration config, Cohort cohort) {
 		//TODO
 	}
 	

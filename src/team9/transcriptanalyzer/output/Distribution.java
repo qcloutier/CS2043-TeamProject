@@ -21,5 +21,5 @@ public abstract class Distribution{
 		return this.schema;
 	}
 	
-	abstract void calculate();
+	abstract void calculate(Configuration config, Cohort cohort);
 }

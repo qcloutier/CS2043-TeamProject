@@ -15,11 +15,17 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Results{
 	
 	private File file;
+	
 	private Workbook workbook;
+	private List<RawDistribution> rawDistributions;
+	private List<AreaDistribution> areaDistributions;
 	private Sheet courseEqs;
 	private Sheet gradeSch;
 	private Sheet rankSch;
@@ -30,6 +36,13 @@ public class Results{
 	public Results(String fileName) {
 		this.file = new File(fileName);
 		this.workbook = new XSSFWorkbook();
+		this.rawDistributions = new ArrayList<RawDistribution>();
+		this.areaDistributions = new ArrayList<AreaDistribution>();
+		this.rawDist = this.workbook.createSheet("Raw Distribution");
+		this.areaDist = this.workbook.createSheet("Area Distribution");
+		this.gradeSch = this.workbook.createSheet("Grade Schema");
+		this.courseEqs = this.workbook.createSheet("Course Equivalents");
+		this.rankSch = this.workbook.createSheet("Rank Schema");
 	}
 	
 	public File getFile() {
@@ -40,16 +53,21 @@ public class Results{
 		this.config = config;
 	}
 	
-	public void setRawDist(RawDistribution rawDist) {
-		//TODO
+	public void addRawDist(RawDistribution rawDist) {
+		this.rawDistributions.add(rawDist);
 	}
 	
-	public void setAreaDist(AreaDistribution areaDist) {
-		//TODO
+	public void addAreaDist(AreaDistribution areaDist) {
+		this.areaDistributions.add(areaDist);
 	}
 	
-	public void write() {
+	public void write() throws FileNotFoundException, IOException{
 		//TODO
+		
+		FileOutputStream out = new FileOutputStream(this.file);
+		this.workbook.write(out);
+		out.close();
+		this.workbook.close();
 	}
 	
 	public String toString() {

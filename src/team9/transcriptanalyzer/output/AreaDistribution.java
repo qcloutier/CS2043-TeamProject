@@ -20,11 +20,11 @@ public class AreaDistribution extends Distribution{
 		entries = new ArrayList<AreaEntry>();
 	}
 	
-	public void addEntry(Area area, List<Integer> values) {
+	private void addEntry(Area area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
 	
-	public void calculate() {
+	public void calculate(Configuration Config, Cohort cohort) {
 		//TODO
 	}
 	
