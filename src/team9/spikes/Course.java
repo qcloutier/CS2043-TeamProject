@@ -1,46 +1,48 @@
 package team9.spikes;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class Course{
 		private String courseId;
 		private String campusSection;
-		private String courseName;
 		private String letterGrade;
-		private double pointGrade;
-		private String yearSemester;
+		private double creditHours;
 		
-		public Course(String courseId, String campusSection, String courseName, String letterGrade, double pointGrade, String yearSemester){
+		public Course(String campusSection, String courseId, String letterGrade, double creditHours){
 			
 			this.courseId = courseId;
 			this.campusSection = campusSection;
-			this.courseName = courseName;
 			this.letterGrade = letterGrade;
-			this.pointGrade = pointGrade;
-			this.yearSemester = yearSemester;
+			this.creditHours = creditHours;
 		
 		}
 		
 		public static void main(String[] args) throws IOException {
-			Course[] e = new Course[6];
-			FileReader fr=new FileReader("YourDoc.txt");
+			ArrayList<Course> Courses = new ArrayList<Course>();
+			FileReader fr=new FileReader("demo/Sample Transcript.txt");
 			BufferedReader br=new BufferedReader(fr);
 			String line="";
-			String[] arrs=null;
-			int num=0;
+			String[] courseInfo=null;
 		
-			while ((line=br.readLine())!=null) {
-				arrs=line.split("\\s+");
-
-			e[num] = new Course(arrs[1], arrs[2], arrs[3], arrs[4], Double.valueOf(arrs[5]), arrs[6]);
-
-			num++;
+			while ((line=br.readLine())!=null) {	
+				courseInfo=line.split("\\s\\s+");
+				if(courseInfo.length==7) {	
+					String section=courseInfo[2];
+					String name=courseInfo[1];
+					String grade=courseInfo[4];
+					double creditHours=Double.valueOf(courseInfo[5]);
+					
+					//System.out.println(section+"|"+name+"|"+grade+"|"+creditHours);
+					
+					Courses.add(new Course(section, name, grade, creditHours));
+				}
 			}
 			br.close();
 			fr.close();
 
-			for(int i=0 ; i< e.length; i++) {
-				System.out.println(e[i].courseId + " and " + e[i].campusSection + " and " + e[i].courseName + " and " + e[i].letterGrade + " and " + e[i].pointGrade + " and " + e[i].yearSemester);
+			for(Course c:Courses) {
+				System.out.println(c.courseId + " and " + c.campusSection + " and "  + c.letterGrade + " and " + c.creditHours);
 			}
 		
 		}
