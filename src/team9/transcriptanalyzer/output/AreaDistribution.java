@@ -11,12 +11,10 @@ import team9.transcriptanalyzer.input.*;
 
 public class AreaDistribution extends Distribution{
 	
-	private Area area;
 	private List<AreaEntry> entries;
 	
 	public AreaDistribution(GradeSchema schema, Area area) {
 		super(schema);
-		this.area = area;
 		entries = new ArrayList<AreaEntry>();
 	}
 	

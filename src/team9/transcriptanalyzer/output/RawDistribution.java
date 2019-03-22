@@ -11,12 +11,10 @@ import team9.transcriptanalyzer.input.*;
 
 public class RawDistribution extends Distribution{
 	
-	private ConfigCourse course;
 	private List<RawEntry> entries;
 	
 	public RawDistribution(GradeSchema schema, ConfigCourse course) {
 		super(schema);
-		this.course = course;
 		entries = new ArrayList<RawEntry>();
 	}
 	
