@@ -1,14 +1,14 @@
-package team9.cohort;
+package team9.transcriptanalyzer.input;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Cohort{
-	/*
-	 * Represents all the transcripts contained in the cohort folder, contained in a list.
-	 */
+/*
+ * Represents all the transcripts contained in the cohort folder, contained in a list.
+ */
+public class Cohort {
 	
 	ArrayList<Transcript> transcripts;
 	
@@ -53,6 +53,5 @@ public class Cohort{
 		}
 		return result;
 	}
-	
 	
 }

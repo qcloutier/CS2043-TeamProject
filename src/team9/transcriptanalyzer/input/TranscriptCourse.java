@@ -1,10 +1,8 @@
-package team9.cohort;
+package team9.transcriptanalyzer.input;
+
 /*
  * Represents a single course in a transcript.
  */
-
-import team9.transcriptanalyzer.input.Grade;
-
 public class TranscriptCourse{
 		
 	private String section;
@@ -41,6 +39,5 @@ public class TranscriptCourse{
 	public String toString() {
 		return "Section: "+section+" | Term: "+term+ " | CreditHours: "+creditHours+" | Grade: "+grade;
 	}
-	
-	
+
 }

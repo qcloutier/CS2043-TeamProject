@@ -8,7 +8,6 @@ import team9.transcriptanalyzer.input.*;
  * Defines a RawDistribution for a specific course
  * @author mholt1 created on 3/16/2019
  */
-
 public class RawDistribution extends Distribution{
 	
 	private List<RawEntry> entries;
@@ -26,7 +25,6 @@ public class RawDistribution extends Distribution{
 		//TODO
 	}
 	
-	
 	private class RawEntry{
 		
 		public ConfigCourse course;
@@ -36,8 +34,7 @@ public class RawDistribution extends Distribution{
 			this.course = course;
 			this.values = values;
 			values = new ArrayList<Integer>();
-		}
-		
-		
+		}	
 	}
+	
 }

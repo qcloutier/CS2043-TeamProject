@@ -8,7 +8,6 @@ import team9.transcriptanalyzer.input.*;
  * Defines an AreaDistribution for a specific area.
  * @author mholt1 created on 3/16/2019
  */
-
 public class AreaDistribution extends Distribution{
 	
 	private List<AreaEntry> entries;
@@ -36,4 +35,5 @@ public class AreaDistribution extends Distribution{
 			this.values = values;
 		}
 	}
+	
 }

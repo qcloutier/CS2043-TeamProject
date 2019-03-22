@@ -88,7 +88,6 @@ public class Configuration {
 		
 		// Add equivalents
 		
-		
 	}
 	
 	public GradeSchema getGradeSchema() {
