@@ -1,0 +1,34 @@
+  CE3963     FR01B  ENGINEERING ECONOMY                         B       3.00      2014/WI          
+
+  CHE2501    SJ01A  GENERAL MATERIALS SCIENCE                   A       3.00      2011/FA          
+
+  CHEM1882   SJ02B  GEN CHEM/PHYSICAL & INORGANIC               A+      5.00      2011/WI          
+
+  CMPE2412   SJ01B  SIMULATION & ENG. ANALYSIS                  A-      4.00      2012/WI          
+
+  CS1003     SJ01A  INTRO COMPUTER PROGRAMMING                  B+      4.00      2010/FA          
+  CS1023     SJ01B  DATA STRUCTURES & ALGORITHMS                A       4.00      2011/WI          
+
+  ECON1023   SJ01A  INTRO ECON: MACRO                           A+      3.00      2011/SP          
+
+  EE2711     SJ01A  ELECTRIC CIRCUITS                           AUD     0.00      2011/FA          
+  EE2722     SJ01B  CIRCUITS AND SYSTEMS                        B+      4.00      2012/WI          
+
+  ENGG4013   FRE1A  LAW AND ETHICS FOR ENGINEERS                A-      3.00      2013/SM          
+
+  ESL1301    SJ04A  ENGLISH SUPPORT I                           B+      0.00      2010/FA          
+  ESL1302    SJ04A  ENGLISH SUPPORT II                          A-      0.00      2010/FA          
+  ESL1303    SJ04A  ENGLISH SUPPORT III                         B+      0.00      2010/FA          
+
+  MATH1013   SJ02B  INTRO TO CALCULUS II                        A       3.00      2011/WI          
+  MATH1503   SJ01A  INTRO TO LINEAR ALGEBRA                     A       3.00      2010/FA          
+  MATH2513   SJ01A  MULTIVARIATE CALCULUS FOR ENG.              A       4.00      2011/FA          
+  MATH3243   FR01A  COMPLEX ANALYSIS                            A       3.00      2013/FA          
+  MATH3503   SJ01B  DIFFERENTIAL EQUATIONS FOR ENG              A-      3.00      2012/WI          
+
+  SOCI1001   SJ01A  INTRODUCTION TO SOCIOLOGY I                 A-      3.00      2011/SP          
+  SOCI2534   FRE1C  TECH & SOCIAL CHANGE                        B       3.00      2013/SM          
+
+  SPAN1203   SJ01A  INTROD'Y SPANISH I                          A-      3.00      2011/FA          
+
+  STAT2593   SJ01A  PROB. & STAT. FOR ENGINEERS                 B+      3.00      2011/FA   

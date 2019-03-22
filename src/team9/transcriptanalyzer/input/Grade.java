@@ -6,25 +6,48 @@ package team9.transcriptanalyzer.input;
  */
 public enum Grade {
 	
-	Ap	(4.3),
+	AP	(4.3),
 	A	(4),
-	Am	(3.7),
-	Bp	(3.3),
+	AM	(3.7),
+	BP	(3.3),
 	B	(3),
-	Bm	(2.7),
-	Cp	(2.3),
+	BM	(2.7),
+	CP	(2.3),
 	C	(2),
 	D	(1),
-	F	(0);
+	F	(0),
+	O	(-1);
 	
-	private final double point;
+	private final double POINT;
 	
-	Grade(double point) {
-		this.point = point;
+	private Grade(double point) {
+		this.POINT = point;
 	}
 	
 	public double asPoint() {
-		return point;
+		return POINT;
+	}
+	
+	/**
+	 * Matches a string to a grade type.
+	 * @param grade The string to match upon.
+	 * @return The corresponding grade type.
+	 */
+	public static Grade match(String grade) {
+		
+		switch (grade) {
+			case "A+"	: return Grade.AP;
+			case "A"	: return Grade.A;
+			case "A-"	: return Grade.AM;
+			case "B+"	: return Grade.BP;
+			case "B"	: return Grade.B;
+			case "B-"	: return Grade.BM;
+			case "C+"	: return Grade.CP;
+			case "C"	: return Grade.C;
+			case "D"	: return Grade.D;
+			case "F"	: return Grade.F;
+			default		: return Grade.O;
+		}
 	}
 	
 }
