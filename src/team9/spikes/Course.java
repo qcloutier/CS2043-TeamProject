@@ -2,7 +2,6 @@ package team9.spikes;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class Course{
 		private String courseId;
@@ -25,7 +24,6 @@ public class Course{
 			BufferedReader br=new BufferedReader(fr);
 			String line="";
 			String[] courseInfo=null;
-			int num=0;
 		
 			while ((line=br.readLine())!=null) {	
 				courseInfo=line.split("\\s\\s+");
@@ -34,12 +32,11 @@ public class Course{
 					String name=courseInfo[1];
 					String grade=courseInfo[4];
 					double creditHours=Double.valueOf(courseInfo[5]);
-					System.out.println(section+"|"+name+"|"+grade+"|"+creditHours);
+					
+					//System.out.println(section+"|"+name+"|"+grade+"|"+creditHours);
 					
 					Courses.add(new Course(section, name, grade, creditHours));
 				}
-
-			num++;
 			}
 			br.close();
 			fr.close();

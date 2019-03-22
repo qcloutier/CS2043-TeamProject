@@ -15,10 +15,6 @@ public class TranscriptCourse{
 	
 	private Grade grade;
 	
-	public static void main(String[] args) {
-		//System.out.println(new TranscriptCourse("FR01Z","Whoms'tsoevert've"));
-	}
-	
 	public TranscriptCourse(String section, String term, double creditHours, Grade grade) {//remember to add Grade when it's merged idiot
 		this.section=section;
 		this.term=term;
@@ -34,7 +30,7 @@ public class TranscriptCourse{
 		return term;
 	}
 	
-	public Grade getGrade() { //remember to uncomment this stoopid
+	public Grade getGrade() {
 		return grade;
 	}
 	
@@ -43,7 +39,7 @@ public class TranscriptCourse{
 	}
 	
 	public String toString() {
-		return "Section: "+section+" | Term: "+term+ " | Grade: You forgot to change this, didn't you?";
+		return "Section: "+section+" | Term: "+term+ " | CreditHours: "+creditHours+" | Grade: "+grade;
 	}
 	
 	
