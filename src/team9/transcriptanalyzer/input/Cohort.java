@@ -15,7 +15,7 @@ public class Cohort {
 	File folder;
 	
 	public static void main(String[] args) throws IOException {
-		System.out.println(new Cohort("demo"));
+		System.out.println(new Cohort("demo/IO Spec Cohort"));
 	}
 	
 	public Cohort(String filepath) throws IOException{
@@ -47,7 +47,7 @@ public class Cohort {
 	}
 	
 	public String toString() {
-		String result= "All Transcripts in Cohort Folder: "+folder.getAbsolutePath()+"\n";
+		String result= "All Transcripts in Cohort Folder: "+folder.getAbsolutePath()+"\n\n";
 		for(Transcript t:transcripts) {
 			result+=t+"\n";
 		}
