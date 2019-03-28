@@ -16,7 +16,7 @@ public enum Grade {
 	C	(2),
 	D	(1),
 	F	(0),
-	O	(-1);
+	O	(Double.NaN);
 	
 	private final double POINT;
 	
@@ -24,6 +24,10 @@ public enum Grade {
 		this.POINT = point;
 	}
 	
+	/**
+	 * Retrieves the grade point value of a letter grade.
+	 * @return The grade point value of a letter grade.
+	 */
 	public double asPoint() {
 		return POINT;
 	}

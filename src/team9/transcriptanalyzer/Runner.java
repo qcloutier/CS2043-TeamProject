@@ -1,5 +1,9 @@
 package team9.transcriptanalyzer;
 
+import java.io.File;
+
+import team9.transcriptanalyzer.input.Configuration;
+
 /**
  * The starting point for execution of the system.
  * @author qcloutier Created on 3/16/19.
@@ -17,7 +21,7 @@ public class Runner {
 			}
 			
 			// Read and parse configuration excel file
-			// TODO
+			Configuration config = new Configuration(new File(args[0]));
 			
 			// Read and parse transcript cohort
 			// TODO
