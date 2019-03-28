@@ -12,12 +12,12 @@ public class AreaDistribution extends Distribution{
 	
 	private List<AreaEntry> entries;
 	
-	public AreaDistribution(GradeSchema schema, Area area) {
+	public AreaDistribution(GradeSchema schema, CourseArea area) {
 		super(schema);
 		entries = new ArrayList<AreaEntry>();
 	}
 	
-	private void addEntry(Area area, List<Integer> values) {
+	private void addEntry(CourseArea area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
 	
@@ -27,10 +27,10 @@ public class AreaDistribution extends Distribution{
 	
 	private class AreaEntry{
 		
-		public Area area;
+		public CourseArea area;
 		public List<Integer> values;
 		
-		public AreaEntry(Area area, List<Integer> values) {
+		public AreaEntry(CourseArea area, List<Integer> values) {
 			this.area = area;
 			this.values = values;
 		}
