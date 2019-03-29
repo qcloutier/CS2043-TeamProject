@@ -28,18 +28,20 @@ public class Transcript{
 		String[] courseInfo=null;
 		String separator="\\s\\s+";//regular expression for 2 or more spaces
 		String section;
-		String name;
+		String id;
 		String grade;
+		String term;
 		int expectedElements=7;
 	
 		while ((line=br.readLine())!=null) {	
 			courseInfo=line.split(separator);
 			if(courseInfo.length==expectedElements) {	
 				section=courseInfo[2];
-				name=courseInfo[1];
+				id=courseInfo[1];
 				grade=courseInfo[4];
+				term=courseInfo[6];
 				double creditHours=Double.valueOf(courseInfo[5]);
-				courses.add(new TranscriptCourse(section, name, creditHours, Grade.match(grade)));
+				courses.add(new TranscriptCourse(section, id, creditHours, Grade.match(grade),term));
 			}
 		}
 		br.close();

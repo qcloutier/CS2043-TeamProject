@@ -3,8 +3,10 @@ package team9.transcriptanalyzer.input;
 /*
  * Represents a single course in a transcript.
  */
-public class TranscriptCourse{
+public class TranscriptCourse {
 		
+	private String id;
+	
 	private String section;
 	
 	private String term;
@@ -13,11 +15,16 @@ public class TranscriptCourse{
 	
 	private Grade grade;
 	
-	public TranscriptCourse(String section, String term, double creditHours, Grade grade) {//remember to add Grade when it's merged idiot
+	public TranscriptCourse(String section, String id, double creditHours, Grade grade, String term) {
+		this.id = id;
 		this.section=section;
-		this.term=term;
 		this.creditHours=creditHours;
-		this.grade=grade;				
+		this.grade=grade;
+		this.term=term;
+	}
+	
+	public String getID() {
+		return id;
 	}
 	
 	public String getSection() {
@@ -37,7 +44,7 @@ public class TranscriptCourse{
 	}
 	
 	public String toString() {
-		return "Section: "+section+" | Term: "+term+ " | CreditHours: "+creditHours+" | Grade: "+grade;
+		return "Section: "+section+" | Term: "+term+ " | CreditHours: "+creditHours+" | Grade: "+grade+"\t | ID: "+id;
 	}
 
 }
