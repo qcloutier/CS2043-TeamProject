@@ -1,86 +1,59 @@
 package team9.transcriptanalyzer.input;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
- * Defines a course entry from the configuration file.
- * @author qcloutier Created on 3/16/19, last updated on 3/27/19.
+ * Defines the course equivalencies from the configuration file.
+ * @author qcloutier Created on 3/16/19, last updated on 3/30/19.
  */
 public class CourseEquivalents {
 	
-	private String id;
-	
-	private List<String> equivalents;
+	private Map<String, String> equivalents;
 	
 	/**
-	 * Creates a course equivalency entry.
-	 * @param id The course identifier.
-	 * @param equivalents The identifiers of equivalent courses.
+	 * Constructs this object by preparing the map for adding equivalencies.
 	 */
-	public CourseEquivalents(String id, List<String> equivalents) {
-		this.id = id;
-		this.equivalents = equivalents;
+	public CourseEquivalents() {
+		this.equivalents = new HashMap<String, String>();
 	}
 	
 	/**
-	 * Retrieves the course identifier.
-	 * @return The course identifier.
+	 * Maps a course name to its top level equivalent.
+	 * @param course The course name.
+	 * @param equivalent The equivalent course.
 	 */
-	public String getID() {
-		return id;
+	public void addEquivalency(String course, String equivalent) {
+		if (!equivalents.containsKey(course)) {
+			this.equivalents.put(course, equivalent);
+		}
 	}
 	
 	/**
-	 * Retrieves the names of equivalent courses.
-	 * @return The list of names of equivalent courses.
+	 * Retrieves the top level equivalent of a given course name.
+	 * @param course The course name.
+	 * @return The equivalent course.
 	 */
-	public List<String> getEquivalents() {
-		return equivalents;
+	public String getEquivalency(String course) {
+		return this.equivalents.get(course);
 	}
 	
 	public String toString() {
-		return "[" + getID() + ", " + equivalents + "]";
-	}
-	
-	/**
-	 * Parses an Excel sheet into a list of course equivalencies.
-	 * @param courseEqs The sheet containing the course equivalencies.
-	 * @return A list of course equivalencies.
-	 */
-	public static List<CourseEquivalents> parseEquivalents(Sheet courseEqs) {
 		
-		List<CourseEquivalents> results = new ArrayList<CourseEquivalents>();
+		String result = "";
 		
-		for (int c=0; c<courseEqs.getRow(0).getLastCellNum(); c++) {
-			
-			String root = courseEqs.getRow(0).getCell(c).getStringCellValue();
-			List<String> others = new ArrayList<String>();
-
-			for (int r=1; r<courseEqs.getLastRowNum(); r++) {
-				
-				Cell cell = courseEqs.getRow(r).getCell(c);
-				if (cell != null) {
-					others.add(cell.getStringCellValue());
-				}
-			}
-			
-			results.add(new CourseEquivalents(root, others));
+		Iterator<String> keys = equivalents.keySet().iterator();
+		while (keys.hasNext()) {
+			String key = keys.next();
+			result += "[" + key + ", " + equivalents.get(key) + "], ";
 		}
 		
-		return results;
-	}
-	
-	// Temporary, will be removed once we formally start writing JUnit tests.
-	public static void main(String[]args) throws Exception {
-		Workbook wb = WorkbookFactory.create(new File("demo/IO Spec Input.xlsx"));
-		System.out.println(parseEquivalents(wb.getSheet("Course Equivalents")));
+		if (result.length() > 2) {
+			result = result.substring(0, result.length()-2);
+		}
+		
+		return "[" + result + "]";
 	}
 	
 }

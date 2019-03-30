@@ -1,49 +1,25 @@
 package team9.transcriptanalyzer.input;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 /**
  * Defines the ranking schema from the configuration file.
- * @author qcloutier Created on 3/16/19, last updated on 3/27/19.
+ * @author qcloutier Created on 3/16/19, last updated on 3/30/19.
  */
 public class RankSchema extends Schema {
 	
 	private List<RankLevel> levels;
 	
 	/**
-	 * Parses an Excel sheet into a rank schema.
-	 * @param rankSchema The sheet containing the rank schema.
+	 * Constructs this object by preparing the list for adding levels.
 	 */
-	public RankSchema(Sheet rankSchema) {
+	public RankSchema() {
 		super();
-		levels = new ArrayList<RankLevel>();
-		
-		for (int c=0; c<rankSchema.getRow(0).getLastCellNum(); c++) {
-			
-			String name = rankSchema.getRow(0).getCell(c).getStringCellValue();
-			int hours = (int)rankSchema.getRow(1).getCell(c).getNumericCellValue();
-			
-			List<String> courses = new ArrayList<String>();
-			for (int r=2; r<=rankSchema.getLastRowNum(); r++) {
-				
-				Cell cell = rankSchema.getRow(r).getCell(c);
-				if (cell != null) {
-					courses.add(cell.getStringCellValue());
-				}
-			}
-			
-			addLevel(name, hours, courses);
-		}
+		this.levels = new ArrayList<RankLevel>();
 	}
 
-	private void addLevel(String name, int minCreditHours, List<String> requiredCourses) {
+	public void addLevel(String name, int minCreditHours, List<String> requiredCourses) {
 		if (!listNames().contains(name)) {
 			addName(name);
 			levels.add(new RankLevel(minCreditHours, requiredCourses));
@@ -95,13 +71,6 @@ public class RankSchema extends Schema {
 			return "[" + minCreditHours + ", " + requiredCourses + "]";
 		}
 		
-	}
-	
-	// Temporary, will be removed once we formally start writing JUnit tests.
-	public static void main(String[]args) throws Exception {
-		Workbook wb = WorkbookFactory.create(new File("demo/IO Spec Input.xlsx"));
-		RankSchema gs = new RankSchema(wb.getSheet("Rank Schema"));
-		System.out.println(gs);
 	}
 	
 }
