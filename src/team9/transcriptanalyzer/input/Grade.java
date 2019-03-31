@@ -6,22 +6,24 @@ package team9.transcriptanalyzer.input;
  */
 public enum Grade {
 	
-	AP	(4.3),
-	A	(4),
-	AM	(3.7),
-	BP	(3.3),
-	B	(3),
-	BM	(2.7),
-	CP	(2.3),
-	C	(2),
-	D	(1),
-	F	(0),
-	O	(Double.NaN);
+	AP	(4.3, "A+"),
+	A	(4, "A"),
+	AM	(3.7, "A-"),
+	BP	(3.3, "B+"),
+	B	(3, "B"),
+	BM	(2.7, "B-"),
+	CP	(2.3, "C+"),
+	C	(2, "C"),
+	D	(1, "D"),
+	F	(0, "F"),
+	O	(Double.NaN, null);
 	
 	private final double POINT;
+	private final String LETTER;
 	
-	private Grade(double point) {
+	private Grade(double point, String letter) {
 		this.POINT = point;
+		this.LETTER = letter;
 	}
 	
 	/**
@@ -52,6 +54,10 @@ public enum Grade {
 			case "F"	: return Grade.F;
 			default		: return Grade.O;
 		}
+	}
+	
+	public String toString() {
+		return LETTER;
 	}
 	
 }
