@@ -3,6 +3,7 @@ package team9.transcriptanalyzer;
 import java.io.File;
 
 import team9.transcriptanalyzer.input.Configuration;
+import team9.transcriptanalyzer.input.ExcelReader;
 
 /**
  * The starting point for execution of the system.
@@ -21,7 +22,7 @@ public class Runner {
 			}
 			
 			// Read and parse configuration excel file
-			Configuration config = new Configuration(new File(args[0]));
+			Configuration config = ExcelReader.parse(new File(args[0]));
 			
 			// Read and parse transcript cohort
 			// TODO

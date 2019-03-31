@@ -1,15 +1,8 @@
 package team9.transcriptanalyzer.input;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-
 /**
- * Overall representation of the Excel configuration file.
- * @author qcloutier Created on 3/20/19, last updated on 3/27/19.
+ * Overall representation of the configuration file.
+ * @author qcloutier Created on 3/20/19, last updated on 3/30/19.
  */
 public class Configuration {
 
@@ -17,25 +10,22 @@ public class Configuration {
 	
 	private RankSchema rankSchema;
 	
-	private List<CourseArea> areas;
+	private CourseAreas courseAreas;
 	
-	private List<CourseEquivalents> courses;
+	private CourseEquivalents courseEquivalents;
 	
 	/**
-	 * Creates a representation of the Excel configuration file.
-	 * @param file The input file.
-	 * @throws IOException If the file cannot be read and parsed.
+	 * Creates a representation of the configuration file.
+	 * @param gs The grading schema.
+	 * @param rs The ranking schema.
+	 * @param ca The course areas.
+	 * @param ce The course equivalents.
 	 */
-	public Configuration(File file) throws IOException {
-		
-		try (Workbook inputExcel = WorkbookFactory.create(file)) {
-			
-			this.gradeSchema = new GradeSchema(inputExcel.getSheet("Grade Schema"));
-			this.rankSchema = new RankSchema(inputExcel.getSheet("Rank Schema"));
-			
-			this.areas = CourseArea.parseAreas(inputExcel.getSheet("Course Areas"));
-			this.courses = CourseEquivalents.parseEquivalents(inputExcel.getSheet("Course Equivalents"));
-		}
+	public Configuration(GradeSchema gs, RankSchema rs, CourseAreas ca, CourseEquivalents ce) {
+		this.gradeSchema = gs;
+		this.rankSchema = rs;
+		this.courseAreas = ca;
+		this.courseEquivalents = ce;
 	}
 	
 	/**
@@ -55,28 +45,23 @@ public class Configuration {
 	}
 	
 	/**
-	 * Retrieves the list of course areas.
-	 * @return The list of course areas.
+	 * Retrieves the course areas.
+	 * @return The course areas.
 	 */
-	public List<CourseArea> getCourseAreas() {
-		return areas;
+	public CourseAreas getCourseAreas() {
+		return courseAreas;
 	}
 	
 	/**
-	 * Retrieves the list of course equivalencies.
-	 * @return the list of course equivalencies.
+	 * Retrieves the course equivalencies.
+	 * @return the course equivalencies.
 	 */
-	public List<CourseEquivalents> getCourseEquivalencies() {
-		return courses;
+	public CourseEquivalents getCourseEquivalencies() {
+		return courseEquivalents;
 	}
 	
 	public String toString() {
-		return "[" + gradeSchema + "," + rankSchema + "," + areas + "," + courses + "]";
-	}
-	
-	// Temporary, will be removed once we formally start writing JUnit tests.
-	public static void main(String[]args) throws Exception {
-		System.out.println(new Configuration(new File("demo/IO Spec Input.xlsx")));
+		return "[" + gradeSchema + "," + rankSchema + "," + courseAreas + "," + courseEquivalents + "]";
 	}
 	
 }
