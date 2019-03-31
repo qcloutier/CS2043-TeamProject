@@ -57,7 +57,7 @@ public enum Grade {
 	}
 	
 	public String toString() {
-		return LETTER;
+		return this.LETTER;
 	}
 	
 }

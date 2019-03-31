@@ -1,6 +1,6 @@
 package team9.transcriptanalyzer.output;
 
-import team9.transcriptanalyzer.input.*;
+import team9.transcriptanalyzer.input.Configuration;
 import java.io.File;
 
 
