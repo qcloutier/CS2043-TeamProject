@@ -1,15 +1,26 @@
 package team9.transcriptanalyzer.output;
 
 import java.util.List;
+import java.util.Map;
+
+import team9.transcriptanalyzer.input.Cohort;
+import team9.transcriptanalyzer.input.Configuration;
+import team9.transcriptanalyzer.input.CourseAreas;
+import team9.transcriptanalyzer.input.CourseEquivalents;
+import team9.transcriptanalyzer.input.GradeSchema;
+import team9.transcriptanalyzer.input.Transcript;
+import team9.transcriptanalyzer.input.TranscriptCourse;
+
 import java.util.ArrayList;
-import team9.transcriptanalyzer.input.*;
+import java.util.HashMap;
 
 /**
  * Defines an AreaDistribution for a specific area.
  * @author mholt1 Created on 3/16/19.
  * @author qcloutier Updated on 3/30/19.
+ * @author jsudz Updated on 4/1/19.
  */
-public class AreaDistribution extends Distribution{
+public class AreaDistribution extends Distribution {
 	
 	private List<AreaEntry> entries;
 	
@@ -18,23 +29,29 @@ public class AreaDistribution extends Distribution{
 		entries = new ArrayList<AreaEntry>();
 	}
 	
-	private void addEntry(String area, List<Integer> values) {
+	public void addEntry(String area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
 	
 	public void calculate(Configuration config, Cohort cohort) {
-		ArrayList<Transcript> transcripts = cohort.getTranscripts();
+		
 		CourseAreas areas = config.getCourseAreas();
 		ArrayList<String> areaList=new ArrayList<String>();
 		ArrayList<ArrayList<Integer>> valuesList =new ArrayList<ArrayList<Integer>>();
 		initializeValuesList(valuesList);
-		CourseEquivalents equivalencies=config.getCourseEquivalencies();
+		CourseEquivalents equivalencies = config.getCourseEquivalencies();
 		
-		for (Transcript transcript : transcripts) {//this should be extracted
+		Map<String, List<Double>> results = new HashMap<String, List<Double>>();
+		
+		for (Transcript transcript : cohort.getTranscripts()) { //this should be extracted
+			
 			ArrayList<double[]> totals=new ArrayList<double[]>();
 			int gradePtIndex=0, creditHourIndex=1;
 			
 			for (TranscriptCourse course : transcript.getCourses()) {
+				
+				
+				
 				String currentCourse=equivalencies.getEquivalency(course.getID());
 				List<String> areasContainingCourse=areas.getAreas(currentCourse);
 				
@@ -107,7 +124,7 @@ public class AreaDistribution extends Distribution{
 		}
 		else {
 			return otherIndex;
-}
+		}
 	}
 	
 	private class AreaEntry{
