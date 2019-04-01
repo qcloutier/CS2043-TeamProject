@@ -3,10 +3,6 @@ package team9.transcriptanalyzer.output;
 import team9.transcriptanalyzer.input.Configuration;
 import java.io.File;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -24,25 +20,12 @@ public class Results{
 	private AreaDistribution areaDistribution;
 	private Configuration config;
 	private File outputExcelFile;
-	private Workbook workbook;
 	
-	public Results(File outputExcelFile) {
-		this.rawDistribution  = null;
-		this.areaDistribution = null;
-		this.config = null;
-		this.outputExcelFile = outputExcelFile;
-	}
-	
-	public void setConfig(Configuration config) {
-		this.config = config;
-	}
-	
-	public void setRawDist(RawDistribution rawDist) {
-		this.rawDistribution = rawDist;
-	}
-	
-	public void setAreaDist(AreaDistribution areaDist) {
+	public Results(File outputExcelFile, Configuration config, RawDistribution rawDist, AreaDistribution areaDist) {
+		this.rawDistribution  = rawDist;
 		this.areaDistribution = areaDist;
+		this.config = config;
+		this.outputExcelFile = outputExcelFile;
 	}
 	
 	public void write() throws FileNotFoundException, IOException{
@@ -51,6 +34,9 @@ public class Results{
 		ExcelWriter.writeCourseEquivalents(this.config.getCourseEquivalencies(), workbook);
 		ExcelWriter.writeGradeSchema(this.config.getGradeSchema(), workbook);
 		ExcelWriter.writeRankSchema(this.config.getRankSchema(), workbook);
+		
+		ExcelWriter.writeDistribution(this.rawDistribution, workbook);
+		ExcelWriter.writeDistribution(this.areaDistribution, workbook);
 		
 		try {
 			ExcelWriter.writeToFile(workbook, this.outputExcelFile);

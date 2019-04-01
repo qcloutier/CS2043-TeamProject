@@ -4,10 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import team9.transcriptanalyzer.input.Configuration;
 import team9.transcriptanalyzer.input.CourseAreas;
 import team9.transcriptanalyzer.input.CourseEquivalents;
 import team9.transcriptanalyzer.input.GradeSchema;
@@ -17,7 +15,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelWriter{
 	
@@ -95,6 +92,18 @@ public class ExcelWriter{
 			creditHour.setCellValue(rankSchema.getMinCreditHours(levelNames.get(i)));
 			if(maxNumRequiredCourses < rankSchema.getRequiredCourses(levelNames.get(i)).size()){
 				maxNumRequiredCourses = rankSchema.getRequiredCourses(levelNames.get(i)).size();
+			}
+		}
+	}
+	
+	public static void writeDistribution(Distribution distribution, Workbook workbook) {
+		Sheet rawDistributionSheet = workbook.createSheet("Raw Distribution");
+		String[][] distributionStrings = distribution.listDistribution();
+		for(int i = 0; i < distributionStrings.length; i++) {
+			Row nextRow = rawDistributionSheet.createRow(i);
+			for(int j = 0; j < distributionStrings[i].length; j++) {
+				Cell c = nextRow.createCell(j);
+				c.setCellValue(distributionStrings[i][j]);
 			}
 		}
 	}

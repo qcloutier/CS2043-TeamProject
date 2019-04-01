@@ -22,4 +22,6 @@ public abstract class Distribution{
 	
 	abstract void calculate(Configuration config, Cohort cohort);
 	
+	abstract String[][] listDistribution();
+	
 }
