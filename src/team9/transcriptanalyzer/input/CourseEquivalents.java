@@ -1,7 +1,9 @@
 package team9.transcriptanalyzer.input;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,6 +39,44 @@ public class CourseEquivalents {
 	 */
 	public String getEquivalency(String course) {
 		return this.equivalents.get(course);
+	}
+	
+	/**
+	 * Retrieves a double list of all course equivalencies.
+	 * @return A double list of all course equivalencies.
+	 */
+	public List<ArrayList<String>> listAllEquivalencies() {
+		
+		List<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+		
+		Iterator<String> keys = equivalents.keySet().iterator();
+		while (keys.hasNext()) {
+			
+			String child = keys.next();
+			String parent = equivalents.get(child);
+			
+			boolean exists = false;
+			int c=0;
+			while (c<results.size()) {
+				if (results.get(c).get(0).equals(parent)) {
+					exists = true;
+					break;
+				}
+				c++;
+			}
+			
+			if (exists) {
+				results.get(c).add(child);
+			}
+			else {
+				ArrayList<String> temp = new ArrayList<String>();
+				temp.add(parent);
+				temp.add(child);
+				results.add(temp);
+			}
+		}
+		
+		return results;
 	}
 	
 	public String toString() {

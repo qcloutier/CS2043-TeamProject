@@ -3,7 +3,7 @@ package team9.transcriptanalyzer.input;
 /*
  * Represents a single course in a transcript.
  */
-public class TranscriptCourse {
+public class TranscriptCourse implements Comparable<TranscriptCourse>{
 		
 	private String id;
 	
@@ -41,6 +41,14 @@ public class TranscriptCourse {
 	
 	public double getCreditHours() {
 		return creditHours;
+	}
+	
+	public boolean equals(TranscriptCourse other) {
+		return(other.getID().equals(id));
+	}
+	
+	public int compareTo(TranscriptCourse other) {
+		return id.compareTo(other.getID());
 	}
 	
 	public String toString() {
