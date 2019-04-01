@@ -36,7 +36,7 @@ public class Results{
 		ExcelWriter.writeRankSchema(this.config.getRankSchema(), workbook);
 		
 		ExcelWriter.writeDistribution(this.rawDistribution, workbook);
-		ExcelWriter.writeDistribution(this.areaDistribution, workbook);
+		//ExcelWriter.writeDistribution(this.areaDistribution, workbook);
 		
 		try {
 			ExcelWriter.writeToFile(workbook, this.outputExcelFile);

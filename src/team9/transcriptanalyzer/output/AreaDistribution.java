@@ -24,7 +24,7 @@ public class AreaDistribution extends Distribution {
 	
 	private List<AreaEntry> entries;
 	
-	public AreaDistribution(GradeSchema schema, CourseAreas area) {
+	public AreaDistribution(GradeSchema schema) {
 		super(schema);
 		entries = new ArrayList<AreaEntry>();
 	}
@@ -125,6 +125,10 @@ public class AreaDistribution extends Distribution {
 		else {
 			return otherIndex;
 		}
+	}
+	
+	public String[][] listDistribution(){
+		return null;
 	}
 	
 	private class AreaEntry{

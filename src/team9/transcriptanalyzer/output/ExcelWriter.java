@@ -36,7 +36,7 @@ public class ExcelWriter{
 	}
 	
 	public static void writeCourseAreas(CourseAreas courseAreas, Workbook workbook) {
-		Sheet courseAreasSheet = workbook.createSheet("Course Equivalents");
+		Sheet courseAreasSheet = workbook.createSheet("Course Areas");
 		List<List<String>> courseAreasList = courseAreas.listAllAreas();
 		int maxNumRows = getMaxNumRows(courseAreasList);
 		for(int i = 0; i < maxNumRows; i++) {
