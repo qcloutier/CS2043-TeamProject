@@ -2,7 +2,14 @@ package team9.transcriptanalyzer.output;
 
 import java.util.List;
 import java.util.ArrayList;
-import team9.transcriptanalyzer.input.*;
+
+import team9.transcriptanalyzer.input.GradeSchema;
+import team9.transcriptanalyzer.input.Configuration;
+import team9.transcriptanalyzer.input.Cohort;
+import team9.transcriptanalyzer.input.CourseEquivalents;
+import team9.transcriptanalyzer.input.Transcript;
+import team9.transcriptanalyzer.input.TranscriptCourse;
+import team9.transcriptanalyzer.input.Grade;
 
 /**
  * Defines a RawDistribution for a specific course
@@ -17,75 +24,60 @@ public class RawDistribution extends Distribution{
 		entries = new ArrayList<RawEntry>();
 	}
 	
-	private void addEntry(CourseEquivalents course, List<Integer> values) {
+	private void addEntry(String course, List<Integer> values) {
 		entries.add(new RawEntry(course, values));
 	}
 	
-	/*public void calculate(Configuration config, Cohort cohort) {
-		//TODO
-	}*/
-	
 	public void calculate(Configuration config, Cohort cohort) {
-		ArrayList<Integer> values = new ArrayList<Integer>();
-		for(int i = 0; i < 5; i++) {
-			values.add(0);
-		}
-		
-		List<String> courses = cohort.getMasterList();
-		List<Transcript> transcripts = cohort.getTranscripts();
-		
 		GradeSchema gradeSchema = config.getGradeSchema();
-		
-		for(String course : courses) {
+		CourseEquivalents courseEquivalents = config.getCourseEquivalencies();
+		List<String> courseIds = new ArrayList<String>();
+		List<String> levelNames = gradeSchema.listNames();
+
+		for(Transcript transcript : cohort.getTranscripts()) {
 			
-			for(Transcript transcript : transcripts) {
+			for(TranscriptCourse course : transcript.getCourses()) {
 				
-				List<TranscriptCourse> transcriptCourses = transcript.getCourses();
-				for(TranscriptCourse transcriptCourse : transcriptCourses) {
-					
-					if(transcriptCourse.getID().equals(course) || checkEquivalents(transcriptCourse, course)) {
-						Grade grade = transcriptCourse.getGrade();
-						if(grade.asPoint() >= gradeSchema.getLower("exceeds").asPoint()) {
-							values.set(4, values.get(4) + 1);
+				Grade grade = course.getGrade();
+				String courseName = courseEquivalents.getEquivalency(course.getID());
+				
+				if(courseIds.indexOf(courseName) == -1) {
+					List<Integer> values = new ArrayList<Integer>();
+					for(int i = 0; i < levelNames.size(); i++) {
+						values.add(0);
+					}
+					this.addEntry(courseName, values);
+					courseIds.add(courseName);
+				}
+				
+				for(int i = 0; i < levelNames.size(); i++) {
+					if(grade.asPoint() >= gradeSchema.getLower(levelNames.get(i)).asPoint() && grade.asPoint() <= gradeSchema.getUpper(levelNames.get(i)).asPoint()) {
+						for(int j = 0; j < entries.size(); j++) {
+							if(entries.get(j).course.equals(courseName)) {
+								entries.get(j).values.set(i, entries.get(j).values.get(i) + 1);
+							}
 						}
-						if(grade.asPoint() >= gradeSchema.getLower("meets").asPoint()) {
-							values.set(3, values.get(3) + 1);
-						}
-						if(grade.asPoint() >= gradeSchema.getLower("marginal").asPoint()) {
-							values.set(2, values.get(2) + 1);
-						}
-						if(grade.asPoint() >= gradeSchema.getLower("fails").asPoint()) {
-							values.set(1, values.get(1) + 1);
-						}
-						else {
-							values.set(0, values.get(0) + 1);
-						}
+						break;
 					}
 				}
-			}
-			
-			entries.add(new RawEntry(course, values));
-			for(int i = 0; i < 5; i++) {
-				values.set(i, 0);
 			}
 		}
 	}
 	
 	public String[][] getRawDistribution(){
-		
-		String [][] rawDistributions = new String[entries.size()][6];
-		
+		String[][] distributions = new String[entries.size()][entries.get(0).values.size() + 1];
 		for(int i = 0; i < entries.size(); i++) {
-			
-			RawEntry name = entries.get(i);
-			
-			for(int j = 1; j < 6; j++) {
-				
-				rawDistributions[1]
+			RawEntry nextEntry = entries.get(i);
+			for(int j = 0; j < nextEntry.values.size() + 1; j++) {
+				if(j == 0) {
+					distributions[i][j] = nextEntry.course;
+				}
+				else {
+					distributions[i][j] = nextEntry.values.get(j).toString();
+				}
 			}
 		}
-		
-		return rawDistributions;
+		return distributions;
 	}
 	
 	private class RawEntry{
