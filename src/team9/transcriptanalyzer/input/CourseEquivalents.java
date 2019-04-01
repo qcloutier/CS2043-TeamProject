@@ -45,9 +45,9 @@ public class CourseEquivalents {
 	 * Retrieves a double list of all course equivalencies.
 	 * @return A double list of all course equivalencies.
 	 */
-	public List<ArrayList<String>> listAllEquivalencies() {
+	public List<List<String>> listAllEquivalencies() {
 		
-		List<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+		List<List<String>> results = new ArrayList<List<String>>();
 		
 		Iterator<String> keys = equivalents.keySet().iterator();
 		while (keys.hasNext()) {
@@ -69,7 +69,7 @@ public class CourseEquivalents {
 				results.get(c).add(child);
 			}
 			else {
-				ArrayList<String> temp = new ArrayList<String>();
+				List<String> temp = new ArrayList<String>();
 				temp.add(parent);
 				temp.add(child);
 				results.add(temp);
