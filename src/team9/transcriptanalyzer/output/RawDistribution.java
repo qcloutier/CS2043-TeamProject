@@ -19,7 +19,7 @@ public class RawDistribution extends Distribution{
 	
 	private List<RawEntry> entries;
 	
-	public RawDistribution(GradeSchema schema, CourseEquivalents course) {
+	public RawDistribution(GradeSchema schema) {
 		super(schema);
 		entries = new ArrayList<RawEntry>();
 	}
@@ -40,6 +40,9 @@ public class RawDistribution extends Distribution{
 				
 				Grade grade = course.getGrade();
 				String courseName = courseEquivalents.getEquivalency(course.getID());
+				if(courseName == null) {
+					courseName = course.getID();
+				}
 				
 				if(courseIds.indexOf(courseName) == -1) {
 					List<Integer> values = new ArrayList<Integer>();
@@ -64,7 +67,7 @@ public class RawDistribution extends Distribution{
 		}
 	}
 	
-	public String[][] getRawDistribution(){
+	public String[][] listDistribution(){
 		String[][] distributions = new String[entries.size()][entries.get(0).values.size() + 1];
 		for(int i = 0; i < entries.size(); i++) {
 			RawEntry nextEntry = entries.get(i);
@@ -73,7 +76,7 @@ public class RawDistribution extends Distribution{
 					distributions[i][j] = nextEntry.course;
 				}
 				else {
-					distributions[i][j] = nextEntry.values.get(j).toString();
+					distributions[i][j] = nextEntry.values.get(j-1).toString();
 				}
 			}
 		}

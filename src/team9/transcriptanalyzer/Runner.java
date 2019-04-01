@@ -4,6 +4,10 @@ import java.io.File;
 
 import team9.transcriptanalyzer.input.Configuration;
 import team9.transcriptanalyzer.input.ExcelReader;
+import team9.transcriptanalyzer.input.Cohort;
+import team9.transcriptanalyzer.output.RawDistribution;
+import team9.transcriptanalyzer.output.AreaDistribution;
+import team9.transcriptanalyzer.output.Results;
 
 /**
  * The starting point for execution of the system.
@@ -25,13 +29,19 @@ public class Runner {
 			Configuration config = ExcelReader.parse(new File(args[0]));
 			
 			// Read and parse transcript cohort
-			// TODO
+			Cohort cohort = new Cohort(args[1]);
 			
 			// Calculate results and write to output file
-			// TODO
+			RawDistribution rawDist = new RawDistribution(config.getGradeSchema());
+			rawDist.calculate(config, cohort);
+			AreaDistribution areaDist = new AreaDistribution(config.getGradeSchema());
+			//areaDist.calculate(config, cohort);
+			Results results = new Results(new File(args[2]), config, rawDist, areaDist);
+			results.write();
 			
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			//Messenger.exception();
 		}
 		
