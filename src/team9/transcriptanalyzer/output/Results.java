@@ -1,55 +1,36 @@
 package team9.transcriptanalyzer.output;
 
-import team9.transcriptanalyzer.input.*;
+import team9.transcriptanalyzer.input.Configuration;
 import java.io.File;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * A class that writes the results to an excel file
  * @author mholt1 created on 3/18/2019
  */
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 
 public class Results{
 	
-	private File file;
-	
-	private Workbook workbook;
 	private RawDistribution rawDistribution;
 	private AreaDistribution areaDistribution;
-	private Sheet courseAreas;
-	private Sheet courseEqs;
-	private Sheet gradeSch;
-	private Sheet rankSch;
-	private Sheet rawDist;
-	private Sheet areaDist;
 	private Configuration config;
+	private File outputExcelFile;
+	private Workbook workbook;
 	
-	public Results(String fileName) {
-		this.file = new File(fileName);
-		this.workbook = new XSSFWorkbook();
+	public Results(File outputExcelFile) {
 		this.rawDistribution  = null;
 		this.areaDistribution = null;
-		this.rawDist = this.workbook.createSheet("Raw Distribution");
-		this.courseAreas = this.workbook.createSheet("Course Area's");
-		this.areaDist = this.workbook.createSheet("Area Distribution");
-		this.gradeSch = this.workbook.createSheet("Grade Schema");
-		this.courseEqs = this.workbook.createSheet("Course Equivalents");
-		this.rankSch = this.workbook.createSheet("Rank Schema");
-	}
-	
-	public File getFile() {
-		return this.file;
+		this.config = null;
+		this.outputExcelFile = outputExcelFile;
 	}
 	
 	public void setConfig(Configuration config) {
@@ -65,53 +46,17 @@ public class Results{
 	}
 	
 	public void write() throws FileNotFoundException, IOException{
-		this.writeCourseEqs();
-		this.writeGradeSch();
-		this.writeCourseAreas();
-		this.writeRankSch();
+		Workbook workbook = new XSSFWorkbook();
+		ExcelWriter.writeCourseAreas(this.config.getCourseAreas(), workbook);
+		ExcelWriter.writeCourseEquivalents(this.config.getCourseEquivalencies(), workbook);
+		ExcelWriter.writeGradeSchema(this.config.getGradeSchema(), workbook);
+		ExcelWriter.writeRankSchema(this.config.getRankSchema(), workbook);
 		
-		this.writeAreaDistribution();
-		this.writeRawDistribution();
-		
-		FileOutputStream out = new FileOutputStream(this.file);
-		this.workbook.write(out);
-		
-		out.close();
-		this.workbook.close();
-	}
-	
-	private void writeAreaDistribution() {
-		//TODO
-	}
-	
-	private void writeRawDistribution() {
-		//TODO
-	}
-	
-	private void writeCourseEqs() {
-		//TODO
-	}
-	
-	private void writeGradeSch() {
-		//TODO
-	}
-	
-	private void writeCourseAreas() {
-		/*List<Area> areas = this.config.getAreas();
-		int areaCount = 0;
-		Row areaName = this.courseAreas.createRow(0);
-		for(Area area : areas) {
-			Cell c = areaName.createCell(areaCount);    // Work In Progress
-			c.setCellValue(area.getName());
+		try {
+			ExcelWriter.writeToFile(workbook, this.outputExcelFile);
 		}
-		int numRows = 1;
-		for(Area area : areas) {
-			List<ConfigCourse> courses = area.getCourses();
-		}*/
-	}
-	
-	private void writeRankSch() {
-		//TODO
+		catch(FileNotFoundException e) {}
+		catch(IOException e) {}
 	}
 	
 	public String toString() {
