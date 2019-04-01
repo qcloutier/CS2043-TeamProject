@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /*
  * Represents all the transcripts contained in the cohort folder, contained in a list.
@@ -11,6 +12,8 @@ import java.util.ArrayList;
 public class Cohort {
 	
 	ArrayList<Transcript> transcripts;
+	
+	ArrayList<TranscriptCourse> masterList;
 	
 	File folder;
 	
@@ -44,6 +47,21 @@ public class Cohort {
 			}
 		};
 		return filter;
+	}
+	
+	public ArrayList<Transcript> getTranscripts(){
+		return transcripts;
+	}
+	
+	private boolean addToMasterList(TranscriptCourse course) {//may not be necessary
+		if(!masterList.contains(course))
+			masterList.add(course);
+		return !masterList.contains(course);
+	}
+	
+	public ArrayList<TranscriptCourse> getMasterList(){//also may not be necessary
+		Collections.sort(masterList);
+		return masterList;
 	}
 	
 	public String toString() {
