@@ -1,14 +1,10 @@
 package team9.transcriptanalyzer.input;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
  * Defines the course areas from the configuration file.
@@ -50,9 +46,9 @@ public class CourseAreas {
 	 * Generates a double list of all course areas.
 	 * @return A double list of all course areas.
 	 */
-	public List<ArrayList<String>> listAllAreas() {
+	public List<List<String>> listAllAreas() {
 		
-		List<ArrayList<String>> results = new ArrayList<ArrayList<String>>();
+		List<List<String>> results = new ArrayList<List<String>>();
 		
 		Iterator<String> keys = areas.keySet().iterator();
 		while (keys.hasNext()) {
@@ -75,7 +71,7 @@ public class CourseAreas {
 					results.get(c).add(child);
 				}
 				else {
-					ArrayList<String> temp = new ArrayList<String>();
+					List<String> temp = new ArrayList<String>();
 					temp.add(parent);
 					temp.add(child);
 					results.add(temp);
@@ -85,14 +81,7 @@ public class CourseAreas {
 		
 		return results;
 	}
-	
-	public static void main(String[]args) throws Exception {
-		
-		Workbook wb = WorkbookFactory.create(new File("demo/IO Spec Input.xlsx"));
-		
-		System.out.println(ExcelReader.parseAreas(wb.getSheet("Course Areas")).listAllAreas());
-	}
-	
+
 	public String toString() {
 		
 		String result = "";
