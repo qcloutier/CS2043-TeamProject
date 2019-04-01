@@ -6,18 +6,19 @@ import team9.transcriptanalyzer.input.*;
 
 /**
  * Defines an AreaDistribution for a specific area.
- * @author mholt1 created on 3/16/2019
+ * @author mholt1 Created on 3/16/19.
+ * @author qcloutier Updated on 3/30/19.
  */
 public class AreaDistribution extends Distribution{
 	
 	private List<AreaEntry> entries;
 	
-	public AreaDistribution(GradeSchema schema, CourseArea area) {
+	public AreaDistribution(GradeSchema schema, CourseAreas area) {
 		super(schema);
 		entries = new ArrayList<AreaEntry>();
 	}
 	
-	private void addEntry(CourseArea area, List<Integer> values) {
+	private void addEntry(CourseAreas area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
 	
@@ -27,10 +28,10 @@ public class AreaDistribution extends Distribution{
 	
 	private class AreaEntry{
 		
-		public CourseArea area;
+		public CourseAreas area;
 		public List<Integer> values;
 		
-		public AreaEntry(CourseArea area, List<Integer> values) {
+		public AreaEntry(CourseAreas area, List<Integer> values) {
 			this.area = area;
 			this.values = values;
 		}
