@@ -23,62 +23,46 @@ public class ExcelWriter{
 	
 	public static void writeCourseEquivalents(CourseEquivalents courseEquivalents, Workbook workbook) {
 		Sheet courseEquivsSheet = workbook.createSheet("Course Equivalents");
-		List<List<String>> equivalents = new ArrayList<List<String>>();
-		Row firstRow = courseEquivsSheet.createRow(0);
-		int numCourses = 0, maxColSize = 0;
-		List<String> courses //
-		for(String course : courses) {
-			Cell cell = firstRow.createCell(numCourses);
-			cell.setCellValue(course);
-			List<String> eqs = //Get all equivalents for the course
-			if(eqs.size() > maxColSize) {
-				maxColSize = eqs.size();
-			}
-			equivalents.add(eqs);
-			numCourses++;
-		}
-		
-		int rowWidth = 0;
-		for(int i = 0; i < maxColSize; i++) {
-			Row nextRow = courseEquivsSheet.createRow(i+1);
-			rowWidth = 0;
-			for(List<String> equivalent : equivalents) {
-				if(i < equivalent.size()) {
-					Cell cell = nextRow.createCell(rowWidth);
-					cell.setCellValue(equivalent.get(i));
+		List<List<String>> courseEquivalentsList = courseEquivalents.listAllEquivalencies();
+		int maxNumRows = getMaxNumRows(courseEquivalentsList);
+		for(int i = 0; i < maxNumRows; i++) {
+			Row nextRow = courseEquivsSheet.createRow(i);
+			int j = 0;
+			for(List<String> equivs : courseEquivalentsList) {
+				if(equivs.size() > i) {
+					Cell c = nextRow.createCell(j);
+					c.setCellValue(equivs.get(i));
 				}
+				j++;
 			}
 		}
 	}
 	
 	public static void writeCourseAreas(CourseAreas courseAreas, Workbook workbook) {
-		Sheet courseAreasSheet = workbook.createSheet("Course Areas");
-		List<List<String>> courses = new ArrayList<List<String>>();
-		Row firstRow = courseAreasSheet.createRow(0);
-		int numArea = 0, maxColSize = 0;
-		List<String> areas; //Get all areas
-		for(String area : areas) {
-			Cell cell = firstRow.createCell(numArea);
-			cell.setCellValue(area);
-			List<String> areaCourses; //Get all courses in the area
-			if(areaCourses.size() > maxColSize) {
-				maxColSize = areaCourses.size();
-			}
-			courses.add(areaCourses);
-			numArea++;
-		}
-		
-		int rowWidth = 0;
-		for(int i = 0; i < maxColSize; i++) {
-			Row nextRow = courseAreasSheet.createRow(i+1);
-			rowWidth = 0;
-			for(List<String> areaCourses : courses) {
-				if(i < areaCourses.size()) {
-					Cell cell = nextRow.createCell(rowWidth);
-					cell.setCellValue(areaCourses.get(i));
+		Sheet courseAreasSheet = workbook.createSheet("Course Equivalents");
+		List<List<String>> courseAreasList = courseAreas.listAllAreas();
+		int maxNumRows = getMaxNumRows(courseAreasList);
+		for(int i = 0; i < maxNumRows; i++) {
+			Row nextRow = courseAreasSheet.createRow(i);
+			int j = 0;
+			for(List<String> area : courseAreasList) {
+				if(area.size() > i) {
+					Cell c = nextRow.createCell(j);
+					c.setCellValue(area.get(i));
 				}
+				j++;
 			}
 		}
+	}
+	
+	private static int getMaxNumRows(List<List<String>> columns) {
+		int max = 0;
+		for(int i = 0; i < columns.size(); i++) {
+			if (columns.get(i).size() > max) {
+				max = columns.get(i).size();
+			}
+		}
+		return max;
 	}
 	
 	public static void writeGradeSchema(GradeSchema gradeSchema, Workbook workbook) {
