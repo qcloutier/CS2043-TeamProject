@@ -18,7 +18,7 @@ public class AreaDistribution extends Distribution{
 		entries = new ArrayList<AreaEntry>();
 	}
 	
-	private void addEntry(CourseAreas area, List<Integer> values) {
+	private void addEntry(String area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
 	
@@ -66,6 +66,10 @@ public class AreaDistribution extends Distribution{
 				
 			}
 		}
+		for(String area: areaList) {
+			int index=areaList.indexOf(area);
+			addEntry(area,valuesList.get(index));
+		}
 		
 	}
 	
@@ -108,10 +112,10 @@ public class AreaDistribution extends Distribution{
 	
 	private class AreaEntry{
 		
-		public CourseAreas area;
+		public String area;
 		public List<Integer> values;
 		
-		public AreaEntry(CourseAreas area, List<Integer> values) {
+		public AreaEntry(String area, List<Integer> values) {
 			this.area = area;
 			this.values = values;
 		}

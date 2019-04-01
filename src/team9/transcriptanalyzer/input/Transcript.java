@@ -41,7 +41,8 @@ public class Transcript{
 				grade=courseInfo[4];
 				term=courseInfo[6];
 				double creditHours=Double.valueOf(courseInfo[5]);
-				courses.add(new TranscriptCourse(section, id, creditHours, Grade.match(grade),term));
+				TranscriptCourse currentCourse=new TranscriptCourse(section, id, creditHours, Grade.match(grade),term);
+				courses.add(currentCourse);
 			}
 		}
 		br.close();

@@ -53,13 +53,13 @@ public class Cohort {
 		return transcripts;
 	}
 	
-	public boolean addToMasterList(TranscriptCourse course) {
+	private boolean addToMasterList(TranscriptCourse course) {//may not be necessary
 		if(!masterList.contains(course))
 			masterList.add(course);
 		return !masterList.contains(course);
 	}
 	
-	public ArrayList<TranscriptCourse> getMasterList(){
+	public ArrayList<TranscriptCourse> getMasterList(){//also may not be necessary
 		Collections.sort(masterList);
 		return masterList;
 	}
