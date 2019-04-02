@@ -21,50 +21,73 @@ public class AreaDistribution extends Distribution {
 	public void addEntry(String area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
-
+	
+	public String[][] listDistribution(){
+		int rowLength=5;
+		String[][] output=new String[entries.size()+1][rowLength];
+		GradeSchema gradeSchema=super.getSchema();
+		List<String> names=gradeSchema.listNames();
+		
+		for (int i=1; i<rowLength; i++) {
+			output[0][i]=names.get(i-1);
+		}
+		
+		for(AreaEntry entry:entries) {
+			int index=entries.indexOf(entry)+1;
+			output[index][0]=entry.getArea();
+			int counter=1;
+				for(int tally:entry.getValues()) {
+					output[index][counter++]=Integer.toString(tally);
+				}
+		}
+		return output;
+		
+	}
 	
 	public void calculate(Configuration config, Cohort cohort) {
-		
 		CourseAreas areas = config.getCourseAreas();
-		ArrayList<String> areaList=new ArrayList<String>();
+		ArrayList<String>areaList=getFirstIndexOnly(areas.listAllAreas());
 		ArrayList<ArrayList<Integer>> valuesList =new ArrayList<ArrayList<Integer>>();
-		initializeValuesList(valuesList);
+		int listSize=areaList.size();
+		initializeValuesList(valuesList,listSize);
 		CourseEquivalents equivalencies = config.getCourseEquivalencies();
 		
 		for (Transcript transcript : cohort.getTranscripts()) { //this should be extracted
 			ArrayList<double[]> totals=new ArrayList<double[]>();
+			initializeTotalsList(totals,listSize);
 			int gradePtIndex=0, creditHourIndex=1;
 			
 			for (TranscriptCourse course : transcript.getCourses()) {
-				String currentCourse=equivalencies.getEquivalency(course.getID());
-				List<String> areasContainingCourse=areas.getAreas(currentCourse);
+				String currentCourse=course.getID();
+				String equivalent=equivalencies.getEquivalency(currentCourse);
+				if(equivalent!=null)
+					currentCourse=equivalencies.getEquivalency(course.getID());
 				
-				for(String area:areasContainingCourse) {
-					if(!areaList.contains(area))
-						areaList.add(area);
+				List<String> areasContainingCourse=areas.getAreas(currentCourse);
+				if(areasContainingCourse!=null) {
 					
-					int currentIndex=areaList.indexOf(area);
-					totals.ensureCapacity(currentIndex);
-					if(totals.get(currentIndex)==null) {
-						initializeTotalsRow(totals,currentIndex);
+					for(String area:areasContainingCourse) {
+						int currentIndex=areaList.indexOf(area);		
+						double[] currentTotals=totals.get(currentIndex);
+						if(!Double.isNaN(course.getGrade().asPoint())){
+							currentTotals[gradePtIndex]+=course.getGrade().asPoint()*course.getCreditHours();
+							currentTotals[creditHourIndex]+=course.getCreditHours();
+						}
 					}
-								
-					double[] currentTotals=totals.get(currentIndex);
-					currentTotals[gradePtIndex]+=course.getGrade().asPoint()*course.getCreditHours();
-					currentTotals[creditHourIndex]+=course.getCreditHours();
 				}
 			}
 			
-			for(String area:areaList) {//so should this
+			for(String area:areaList) {
+				
 				int index=areaList.indexOf(area);
 				double[]currentTotals=totals.get(index);
 				double avgGradePt=currentTotals[gradePtIndex]/currentTotals[creditHourIndex];
-				int gradeIndex=getGradeAsIndex(config,avgGradePt);
+				int gradeIndex=getGradeAsIndex(avgGradePt);
 				if(gradeIndex>=0) {
-					ArrayList<Integer>currentAreaValues=valuesList.get(index);
+					ensureSize(valuesList,index+1);
+					ArrayList<Integer>currentAreaValues=valuesList.get(index);						
 					currentAreaValues.set(gradeIndex,currentAreaValues.get(gradeIndex)+1);
 				}
-				
 			}
 		}
 		for(String area: areaList) {
@@ -73,56 +96,55 @@ public class AreaDistribution extends Distribution {
 		}
 		
 	}
+	public static void ensureSize(ArrayList<?> list, int size) {
+	    list.ensureCapacity(size);
+	    while (list.size() < size) {
+	        list.add(null);
+	    }
+	}
 	
-	private void initializeValuesList(ArrayList<ArrayList<Integer>> valuesList) {
-		for(ArrayList<Integer> values:valuesList) {
-			values=new ArrayList<Integer>();
-			for(int val:values){
-				val=0;
-			}
-		}
+	private ArrayList<String> getFirstIndexOnly(List<List<String>> list){
+		ArrayList <String>firstIndexList=new ArrayList<String>();
+		for(List<String> subList:list)
+			firstIndexList.add(subList.get(0));
+		return firstIndexList;	
+	}
+	
+	private static ArrayList<Integer> emptyValuesRow() {
+		ArrayList<Integer> row= new ArrayList<Integer>();
+		int rowSize=4;
+		for(int i=0;i<rowSize;i++)
+			row.add(0);
+		return row;
 		
 	}
 	
-	private void initializeTotalsRow(ArrayList<double[]> totals,int index) {
-		double[] newTotals=new double[2];
-		for (int i=0;i<newTotals.length;i++)
-			newTotals[i]=0;
-		totals.set(index,newTotals);
+	private static double[] emptyTotalsRow() {
+		return new double[] {0,0};
 	}
 	
-	private int getGradeAsIndex(Configuration config, double grade) {
-		GradeSchema gradeSchema=config.getGradeSchema();
-		int exceedsIndex=3,meetsIndex=2,marginalIndex=1,failsIndex=0,otherIndex=-1;
-		if(grade>= gradeSchema.getLower("exceeds").asPoint()) {
-			return exceedsIndex;
-		}
-		if(grade >= gradeSchema.getLower("meets").asPoint()) {
-			return meetsIndex;
-		}
-		if(grade >= gradeSchema.getLower("marginal").asPoint()) {
-			return marginalIndex;
-		}
-		if(grade >= gradeSchema.getLower("fails").asPoint()) {
-			return failsIndex;
-		}
-		else {
-			return otherIndex;
+	private void initializeTotalsList(ArrayList<double[]> totals,int size) {
+		for(int i=0;i<size;i++) {
+			totals.add(emptyTotalsRow());
 		}
 	}
 	
-	public String[][] listDistribution(){
-		int rowSize=5;
-		int numColumns=entries.size();
-		String[][] results=new String[numColumns][rowSize];
-		int count=0;
-		for (AreaEntry entry:entries) {
-			results[count][0]=entry.getArea();
-			for(int tally:entry.getValues())
-				results[count][entry.getValues().indexOf(tally)]=Integer.toString(tally);
+	private void initializeValuesList(ArrayList<ArrayList<Integer>> values, int size) {
+		for(int i=0;i<size;i++) {
+			values.add(emptyValuesRow());
 		}
-		return results;
 	}
+	
+	private int getGradeAsIndex(double grade) {
+		GradeSchema gradeSchema=super.getSchema();
+		List<String> names=gradeSchema.listNames();
+		for(String level:names)
+			if(grade<= gradeSchema.getUpper(level).asPoint())
+				return names.indexOf(level);
+		return -1;
+
+	}
+	
 	
 	private class AreaEntry{
 		
@@ -133,6 +155,7 @@ public class AreaDistribution extends Distribution {
 			this.area = area;
 			this.values = values;
 		}
+		
 		public String getArea() {
 			return area;
 		}
