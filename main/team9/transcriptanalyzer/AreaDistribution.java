@@ -21,6 +21,7 @@ public class AreaDistribution extends Distribution {
 	public void addEntry(String area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
+
 	
 	public void calculate(Configuration config, Cohort cohort) {
 		
@@ -111,7 +112,16 @@ public class AreaDistribution extends Distribution {
 	}
 	
 	public String[][] listDistribution(){
-		return null;
+		int rowSize=5;
+		int numColumns=entries.size();
+		String[][] results=new String[numColumns][rowSize];
+		int count=0;
+		for (AreaEntry entry:entries) {
+			results[count][0]=entry.getArea();
+			for(int tally:entry.getValues())
+				results[count][entry.getValues().indexOf(tally)]=Integer.toString(tally);
+		}
+		return results;
 	}
 	
 	private class AreaEntry{
@@ -122,6 +132,13 @@ public class AreaDistribution extends Distribution {
 		public AreaEntry(String area, List<Integer> values) {
 			this.area = area;
 			this.values = values;
+		}
+		public String getArea() {
+			return area;
+		}
+		
+		public List<Integer> getValues(){
+			return values;
 		}
 	}
 	
