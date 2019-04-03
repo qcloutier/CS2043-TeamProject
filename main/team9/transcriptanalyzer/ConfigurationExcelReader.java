@@ -26,9 +26,19 @@ public class ConfigurationExcelReader implements ConfigurationReader {
 	public Configuration read() throws IOException {
 		
 		try (Workbook inputExcel = WorkbookFactory.create(file)) {
+			GradeSchema gs;
+			try {
+				gs = parseGradeSchema(inputExcel.getSheet("Grade Schema"));
+			} catch(Exception e) {
+				gs = new GradeSchema(true);
+			}
+			RankSchema rs;
+			try {
+				rs = parseRankSchema(inputExcel.getSheet("Rank Schema"));
+			} catch(Exception e) {
+				rs = new RankSchema(true);
+			}
 			
-			GradeSchema gs = parseGradeSchema(inputExcel.getSheet("Grade Schema"));
-			RankSchema rs = parseRankSchema(inputExcel.getSheet("Rank Schema"));
 			CourseAreas ca = parseAreas(inputExcel.getSheet("Course Areas"));
 			CourseEquivalents cs = parseEquivalents(inputExcel.getSheet("Course Equivalents"));
 		
