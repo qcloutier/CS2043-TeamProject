@@ -72,7 +72,7 @@ public class Messenger {
 			"  An unhandled exception occured. \n" + 
 			"STACK TRACE: \n    "
 		);
-
+		e.printStackTrace();
 	}
 	
 }
