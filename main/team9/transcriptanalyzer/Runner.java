@@ -5,7 +5,7 @@ import java.io.IOException;
 
 /**
  * The starting point for execution of the system.
- * @author qcloutier Created on 3/16/19, updated on 4/2/19.
+ * @author qcloutier Created on 3/16/19, updated on 4/3/19.
  */
 public class Runner {
 
@@ -25,16 +25,16 @@ public class Runner {
 			Configuration configObj = ConfigurationFactory.determine(configFile).read();
 			
 			// Read and parse transcript cohort
-			Cohort cohort = new Cohort(cohortFolder.getAbsolutePath());
+			Cohort cohortObj = CohortFactory.determine(cohortFolder).read();
 			
 			// Calculate results
 			RawDistribution rawDist = new RawDistribution(configObj.getGradeSchema());
-			rawDist.calculate(configObj, cohort);
+			rawDist.calculate(configObj, cohortObj);
 			AreaDistribution areaDist = new AreaDistribution(configObj.getGradeSchema());
-			areaDist.calculate(configObj, cohort);
+			areaDist.calculate(configObj, cohortObj);
+			Results resultsObj = new Results(configObj, rawDist, areaDist);
 			
 			// Write to output file
-			Results resultsObj = new Results(configObj, rawDist, areaDist);
 			ResultsFactory.determine(resultsFile).write(resultsObj);
 
 			Messenger.success();

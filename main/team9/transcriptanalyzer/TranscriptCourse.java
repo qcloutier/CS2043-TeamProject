@@ -2,6 +2,9 @@ package team9.transcriptanalyzer;
 
 /*
  * Represents a single course in a transcript.
+ * @author jsudz Created on 3/?/19.
+ * @author rbannister Updated on 4/3/19.
+ * @author qcloutier Updated on 4/3/19.
  */
 public class TranscriptCourse implements Comparable<TranscriptCourse>{
 		
@@ -52,7 +55,7 @@ public class TranscriptCourse implements Comparable<TranscriptCourse>{
 	}
 	
 	public String toString() {
-		return "Section: "+section+" | Term: "+term+ " | CreditHours: "+creditHours+" | Grade: "+grade+"\t | ID: "+id;
+		return "[" + id + ", " + section + ", " + term + ", " + creditHours + ", " + grade + "]";
 	}
 
 }

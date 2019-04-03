@@ -1,33 +1,32 @@
 package team9.transcriptanalyzer;
 
 import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.util.List;
 
 /*
- * Represents a Transcript which is parsed from a single text file in the cohort folder.
+ * Represents a single transcript in a cohort.
+ * @author jsudz Created on 3/?/19.
+ * @author rbannister Updated on 4/3/19.
+ * @author qcloutier Updated on 4/3/19.
  */
 public class Transcript{
 	
-	ArrayList<TranscriptCourse> courses;
+	private List<TranscriptCourse> courses;
 	
 	public Transcript() {
-		courses= new ArrayList<TranscriptCourse>();
-		
+		courses = new ArrayList<TranscriptCourse>();
 	}
 	
-	public ArrayList<TranscriptCourse> getCourses(){
+	public void addCourse(TranscriptCourse course) {
+		courses.add(course);
+	}
+	
+	public List<TranscriptCourse> getCourses(){
 		return courses;
 	}
 	
 	public String toString() {
-		String result="Courses in transcript ";
-		for(TranscriptCourse course: courses) {
-			result+=course+"\n";
-		}
-		return result;
+		return "[" + courses + "]";
 	}
 	
 }
