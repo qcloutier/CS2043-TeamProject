@@ -16,7 +16,7 @@ public enum Grade {
 	C	(2, "C"),
 	D	(1, "D"),
 	F	(0, "F"),
-	O	(Double.NaN, null);
+	NA	(Double.NaN, "NA");
 	
 	private final double POINT;
 	private final String LETTER;
@@ -41,19 +41,13 @@ public enum Grade {
 	 */
 	public static Grade match(String grade) {
 		
-		switch (grade) {
-			case "A+"	: return Grade.AP;
-			case "A"	: return Grade.A;
-			case "A-"	: return Grade.AM;
-			case "B+"	: return Grade.BP;
-			case "B"	: return Grade.B;
-			case "B-"	: return Grade.BM;
-			case "C+"	: return Grade.CP;
-			case "C"	: return Grade.C;
-			case "D"	: return Grade.D;
-			case "F"	: return Grade.F;
-			default		: return Grade.O;
+		for (Grade g : Grade.values()) {
+			if (grade.equals(g.LETTER)) {
+				return g;
+			}
 		}
+		
+		return Grade.NA;
 	}
 	
 	public String toString() {

@@ -1,49 +1,34 @@
 package team9.transcriptanalyzer;
 
-import java.io.File;
-
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 /**
- * A class that writes the results to an excel file
- * @author mholt1 created on 3/18/2019
+ * A class to represent all the results.
+ * @author mholt1 Created on 3/18/2019.
+ * @author qcloutier Updated on 4/2/19.
  */
-
-import java.io.IOException;
-import java.io.FileNotFoundException;
-
-public class Results{
+public class Results {
 	
+	private Configuration configuration;
 	private RawDistribution rawDistribution;
 	private AreaDistribution areaDistribution;
-	private Configuration config;
-	private File outputExcelFile;
 	
-	public Results(File outputExcelFile, Configuration config, RawDistribution rawDist, AreaDistribution areaDist) {
-		this.rawDistribution  = rawDist;
+	public Results(Configuration config, RawDistribution rawDist, AreaDistribution areaDist) {
+		this.configuration = config;
+		this.rawDistribution = rawDist;
 		this.areaDistribution = areaDist;
-		this.config = config;
-		this.outputExcelFile = outputExcelFile;
 	}
 	
-	public void write() throws FileNotFoundException, IOException{
-		Workbook workbook = new XSSFWorkbook();
-		ExcelWriter.writeCourseAreas(this.config.getCourseAreas(), workbook);
-		ExcelWriter.writeCourseEquivalents(this.config.getCourseEquivalencies(), workbook);
-		ExcelWriter.writeGradeSchema(this.config.getGradeSchema(), workbook);
-		ExcelWriter.writeRankSchema(this.config.getRankSchema(), workbook);
-		
-		ExcelWriter.writeDistribution(this.rawDistribution, workbook);
-		//ExcelWriter.writeDistribution(this.areaDistribution, workbook);
-		
-		try {
-			ExcelWriter.writeToFile(workbook, this.outputExcelFile);
-		}
-		catch(FileNotFoundException e) {}
-		catch(IOException e) {}
+	public Configuration getConfiguration() {
+		return configuration;
 	}
-	
+
+	public RawDistribution getRawDistribution() {
+		return rawDistribution;
+	}
+
+	public AreaDistribution getAreaDistribution() {
+		return areaDistribution;
+	}
+
 	public String toString() {
 		return null;
 	}
