@@ -13,12 +13,18 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  * Implementation of ResultsWriter for Excel files.
- * @author mholt1 Created on 3/?/19.
+ * @author mholt1 Created on 3/30/19.
  * @author qcloutier Updated on 4/2/19.
  */
 public class ResultsExcelWriter implements ResultsWriter {
 	
-	public void write(File file, Results data) throws IOException {
+	private File file;
+	
+	public ResultsExcelWriter(File file) {
+		this.file = file;
+	}
+	
+	public void write(Results data) throws IOException {
 		
 		try (Workbook outputExcel = new XSSFWorkbook();) {
 			
@@ -34,7 +40,7 @@ public class ResultsExcelWriter implements ResultsWriter {
 		}
 	}
 	
-	public static void writeCourseEquivalents(CourseEquivalents courseEquivalents, Workbook workbook) {
+	private void writeCourseEquivalents(CourseEquivalents courseEquivalents, Workbook workbook) {
 		Sheet courseEquivsSheet = workbook.createSheet("Course Equivalents");
 		List<List<String>> courseEquivalentsList = courseEquivalents.listAllEquivalencies();
 		int maxNumRows = getMaxNumRows(courseEquivalentsList);
@@ -51,7 +57,7 @@ public class ResultsExcelWriter implements ResultsWriter {
 		}
 	}
 	
-	public static void writeCourseAreas(CourseAreas courseAreas, Workbook workbook) {
+	private void writeCourseAreas(CourseAreas courseAreas, Workbook workbook) {
 		Sheet courseAreasSheet = workbook.createSheet("Course Areas");
 		List<List<String>> courseAreasList = courseAreas.listAllAreas();
 		int maxNumRows = getMaxNumRows(courseAreasList);
@@ -78,7 +84,7 @@ public class ResultsExcelWriter implements ResultsWriter {
 		return max;
 	}
 	
-	public static void writeGradeSchema(GradeSchema gradeSchema, Workbook workbook) {
+	private void writeGradeSchema(GradeSchema gradeSchema, Workbook workbook) {
 		Sheet gradeSchemaSheet = workbook.createSheet("Grade Schema");
 		List<String> levelNames = gradeSchema.listNames();
 		Row names = gradeSchemaSheet.createRow(0);
@@ -95,7 +101,7 @@ public class ResultsExcelWriter implements ResultsWriter {
 		}
 	}
 	
-	public static void writeRankSchema(RankSchema rankSchema, Workbook workbook) {
+	private void writeRankSchema(RankSchema rankSchema, Workbook workbook) {
 		Sheet rankSchemaSheet = workbook.createSheet("Rank Schema");
 		List<String> levelNames = rankSchema.listNames();
 		Row namesRow = rankSchemaSheet.createRow(0);
@@ -112,7 +118,7 @@ public class ResultsExcelWriter implements ResultsWriter {
 		}
 	}
 	
-	public static void writeDistribution(Distribution distribution, String sheetName, Workbook workbook) {
+	private void writeDistribution(Distribution distribution, String sheetName, Workbook workbook) {
 		Sheet distributionSheet = workbook.createSheet(sheetName);
 		String[][] distributionStrings = distribution.listDistribution();
 		for(int i = 0; i < distributionStrings.length; i++) {

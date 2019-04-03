@@ -17,23 +17,25 @@ public class Runner {
 				return;
 			}
 			
+			File configFile = new File(args[0]);
+			File cohortFolder = new File(args[1]);
+			File resultsFile = new File(args[2]);
+			
 			// Read and parse configuration file
-			ConfigurationReader configReader = new ConfigurationExcelReader();
-			Configuration config = configReader.read(new File(args[0]));
+			Configuration configObj = ConfigurationFactory.determine(configFile).read();
 			
 			// Read and parse transcript cohort
-			Cohort cohort = new Cohort(args[1]);
+			Cohort cohort = new Cohort(cohortFolder.getAbsolutePath());
 			
 			// Calculate results
-			RawDistribution rawDist = new RawDistribution(config.getGradeSchema());
-			rawDist.calculate(config, cohort);
-			AreaDistribution areaDist = new AreaDistribution(config.getGradeSchema());
-			areaDist.calculate(config, cohort);
+			RawDistribution rawDist = new RawDistribution(configObj.getGradeSchema());
+			rawDist.calculate(configObj, cohort);
+			AreaDistribution areaDist = new AreaDistribution(configObj.getGradeSchema());
+			areaDist.calculate(configObj, cohort);
 			
 			// Write to output file
-			Results results = new Results(config, rawDist, areaDist);
-			ResultsWriter resultsWriter = new ResultsExcelWriter();
-			resultsWriter.write(new File(args[2]), results);
+			Results resultsObj = new Results(configObj, rawDist, areaDist);
+			ResultsFactory.determine(resultsFile).write(resultsObj);
 
 			Messenger.success();
 		}
