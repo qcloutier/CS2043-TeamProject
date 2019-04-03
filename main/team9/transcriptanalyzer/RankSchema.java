@@ -14,9 +14,16 @@ public class RankSchema extends Schema {
 	/**
 	 * Constructs this object by preparing the list for adding levels.
 	 */
-	public RankSchema() {
+	public RankSchema(boolean isDefault) {
 		super();
 		this.levels = new ArrayList<RankLevel>();
+		if(isDefault) {
+			levels.add(new RankLevel(0, new ArrayList<String>()));
+			levels.add(new RankLevel(40, new ArrayList<String>()));
+			levels.add(new RankLevel(80, new ArrayList<String>()));
+			levels.add(new RankLevel(120, new ArrayList<String>()));
+		}
+		
 	}
 
 	public void addLevel(String name, int minCreditHours, List<String> requiredCourses) {

@@ -14,9 +14,15 @@ public class GradeSchema extends Schema {
 	/**
 	 * Constructs this object by preparing the list for adding levels.
 	 */
-	public GradeSchema() {
+	public GradeSchema(boolean isDefault) {
 		super();
 		this.levels = new ArrayList<GradeLevel>();
+		if(isDefault) {
+			levels.add(new GradeLevel(Grade.match("F"), Grade.match("D")));
+			levels.add(new GradeLevel(Grade.match("C"), Grade.match("C+")));
+			levels.add(new GradeLevel(Grade.match("B-"), Grade.match("B+")));
+			levels.add(new GradeLevel(Grade.match("A-"), Grade.match("A+")));
+		}
 	}
 	
 	public void addLevel(String name, Grade lower, Grade upper) {
