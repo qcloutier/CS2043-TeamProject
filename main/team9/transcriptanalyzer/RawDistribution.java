@@ -24,7 +24,12 @@ public class RawDistribution extends Distribution{
 		GradeSchema gradeSchema = config.getGradeSchema();
 		CourseEquivalents courseEquivalents = config.getCourseEquivalencies();
 		List<String> courseIds = new ArrayList<String>();
-		List<String> levelNames = gradeSchema.listNames();
+		List<String> levelNames = new ArrayList<String>();
+		List<String> gradeLevelNames = gradeSchema.listNames();
+		levelNames.add(0, "other");
+		for(int i = 0; i < gradeLevelNames.size(); i++) {
+			levelNames.add(gradeLevelNames.get(i));
+		}
 
 		for(Transcript transcript : cohort.getTranscripts()) {
 			
@@ -44,11 +49,14 @@ public class RawDistribution extends Distribution{
 					this.addEntry(courseName, values);
 					courseIds.add(courseName);
 				}
-				
-				for(int i = 0; i < levelNames.size(); i++) {
-					if(grade.asPoint() >= gradeSchema.getLower(levelNames.get(i)).asPoint() && grade.asPoint() <= gradeSchema.getUpper(levelNames.get(i)).asPoint()) {
+				for(int i = 1; i < levelNames.size(); i++) {
+					if((grade.asPoint() >= gradeSchema.getLower(levelNames.get(i)).asPoint() && grade.asPoint() <= gradeSchema.getUpper(levelNames.get(i)).asPoint()) || grade.toString() == null) {
 						for(int j = 0; j < entries.size(); j++) {
 							if(entries.get(j).course.equals(courseName)) {
+								if(grade.toString() == null) {
+									entries.get(j).values.set(0, entries.get(j).values.get(0) + 1);
+									break;
+								}
 								entries.get(j).values.set(i, entries.get(j).values.get(i) + 1);
 							}
 						}
@@ -60,15 +68,20 @@ public class RawDistribution extends Distribution{
 	}
 	
 	public String[][] listDistribution(){
-		String[][] distributions = new String[entries.size()][entries.get(0).values.size() + 1];
+		String[][] distributions = new String[entries.size() + 1][entries.get(0).values.size() + 1];
+		List<String> levels = this.getSchema().listNames();
+		distributions[0][1] = "other";
+		for(int j = 2; j < levels.size() + 2; j++) {
+			distributions[0][j] = levels.get(j-2);
+		}
 		for(int i = 0; i < entries.size(); i++) {
 			RawEntry nextEntry = entries.get(i);
 			for(int j = 0; j < nextEntry.values.size() + 1; j++) {
 				if(j == 0) {
-					distributions[i][j] = nextEntry.course;
+					distributions[i+1][j] = nextEntry.course;
 				}
 				else {
-					distributions[i][j] = nextEntry.values.get(j-1).toString();
+					distributions[i+1][j] = nextEntry.values.get(j-1).toString();
 				}
 			}
 		}
