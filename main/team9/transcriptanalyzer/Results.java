@@ -39,7 +39,7 @@ public class Results {
 	}
 
 	public String toString() {
-		return null;
+		return "[" + configuration + ", " + rawDistribution + ", " + areaDistribution + ", " + studentRanks + "]";
 	}
 	
 }

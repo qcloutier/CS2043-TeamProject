@@ -11,6 +11,8 @@ public class Runner {
 
 	public static void main(String[] args) {
 		try {
+			System.setErr(System.out);
+			
 			// Check that three file paths have been passed
 			if (args.length != 3) {
 				Messenger.usage();

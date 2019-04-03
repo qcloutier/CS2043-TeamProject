@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /*
- * Represents cohort of transcripts.
+ * Represents a cohort of transcripts.
  * @author jsudz Created on 3/?/19.
  * @author rbannister Updated on 4/3/19.
  * @author qcloutier Updated on 4/3/19.

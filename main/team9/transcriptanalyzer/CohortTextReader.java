@@ -7,7 +7,7 @@ import java.util.Scanner;
 /**
  * Implementation of CohortReader for text files.
  * @author rbannister Created on 4/03/19.
- * @author qcloutier Updated on 4/3/19.
+ * @author qcloutier Created on 4/3/19.
  */
 public class CohortTextReader implements CohortReader {
 	

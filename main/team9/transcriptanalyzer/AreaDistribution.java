@@ -6,8 +6,8 @@ import java.util.ArrayList;
 /**
  * Defines an AreaDistribution for a specific area.
  * @author mholt1 Created on 3/16/19.
- * @author qcloutier Updated on 3/30/19.
  * @author jsudz Updated on 4/1/19.
+ * @author qcloutier Updated on 4/3/19.
  */
 public class AreaDistribution extends Distribution {
 	
@@ -43,20 +43,19 @@ public class AreaDistribution extends Distribution {
 				}
 		}
 		return output;
-		
 	}
 	
 	public void calculate(Configuration config, Cohort cohort) {
 		boolean missingAreas=false;
 		CourseAreas areas = config.getCourseAreas();
-		ArrayList<String>areaList=getFirstIndexOnly(areas.listAllAreas());
-		ArrayList<ArrayList<Integer>> valuesList =new ArrayList<ArrayList<Integer>>();
+		List<String>areaList=getFirstIndexOnly(areas.listAllAreas());
+		ArrayList<List<Integer>> valuesList =new ArrayList<List<Integer>>();
 		int listSize=areaList.size();
 		initializeValuesList(valuesList,listSize);
 		CourseEquivalents equivalencies = config.getCourseEquivalencies();
 		
 		for (Transcript transcript : cohort.getTranscripts()) {
-			ArrayList<double[]> totals=new ArrayList<double[]>();
+			List<double[]> totals=new ArrayList<double[]>();
 			initializeTotalsList(totals,listSize);
 			int gradePtIndex=0, creditHourIndex=1;
 			
@@ -92,7 +91,7 @@ public class AreaDistribution extends Distribution {
 				int gradeIndex=getGradeAsIndex(avgGradePt);
 				if(gradeIndex>=0) {
 					ensureSize(valuesList,index+1);
-					ArrayList<Integer>currentAreaValues=valuesList.get(index);						
+					List<Integer>currentAreaValues=valuesList.get(index);						
 					currentAreaValues.set(gradeIndex,currentAreaValues.get(gradeIndex)+1);
 				}
 			}
@@ -111,33 +110,32 @@ public class AreaDistribution extends Distribution {
 	    }
 	}
 	
-	private ArrayList<String> getFirstIndexOnly(List<List<String>> list){
-		ArrayList <String>firstIndexList=new ArrayList<String>();
+	private List<String> getFirstIndexOnly(List<List<String>> list){
+		List <String>firstIndexList=new ArrayList<String>();
 		for(List<String> subList:list)
 			firstIndexList.add(subList.get(0));
 		return firstIndexList;	
 	}
 	
-	private static ArrayList<Integer> emptyValuesRow() {
-		ArrayList<Integer> row= new ArrayList<Integer>();
+	private static List<Integer> emptyValuesRow() {
+		List<Integer> row= new ArrayList<Integer>();
 		int rowSize=4;
 		for(int i=0;i<rowSize;i++)
 			row.add(0);
 		return row;
-		
 	}
 	
 	private static double[] emptyTotalsRow() {
 		return new double[] {0,0};
 	}
 	
-	private void initializeTotalsList(ArrayList<double[]> totals,int size) {
+	private void initializeTotalsList(List<double[]> totals,int size) {
 		for(int i=0;i<size;i++) {
 			totals.add(emptyTotalsRow());
 		}
 	}
 	
-	private void initializeValuesList(ArrayList<ArrayList<Integer>> values, int size) {
+	private void initializeValuesList(List<List<Integer>> values, int size) {
 		for(int i=0;i<size;i++) {
 			values.add(emptyValuesRow());
 		}
@@ -150,9 +148,7 @@ public class AreaDistribution extends Distribution {
 			if(grade<= gradeSchema.getUpper(level).asPoint())
 				return names.indexOf(level);
 		return -1;
-
 	}
-	
 	
 	private class AreaEntry{
 		
@@ -171,6 +167,7 @@ public class AreaDistribution extends Distribution {
 		public List<Integer> getValues(){
 			return values;
 		}
+		
 	}
 	
 }

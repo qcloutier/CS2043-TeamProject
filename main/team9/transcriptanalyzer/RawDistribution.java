@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Defines a RawDistribution for a specific course
- * @author mholt1 created on 3/16/2019
+ * @author mholt1 Created on 3/16/2019.
  */
 public class RawDistribution extends Distribution{
 	
