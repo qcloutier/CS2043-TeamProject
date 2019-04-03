@@ -23,10 +23,12 @@ public class AreaDistribution extends Distribution {
 	}
 	
 	public String[][] listDistribution(){
-		int rowLength=5;
-		String[][] output=new String[entries.size()+1][rowLength];
+
 		GradeSchema gradeSchema=super.getSchema();
 		List<String> names=gradeSchema.listNames();
+		int rowLength=names.size()+1;
+		int colLength=entries.size()+1;
+		String[][] output=new String[colLength][rowLength];
 		
 		for (int i=1; i<rowLength; i++) {
 			output[0][i]=names.get(i-1);
@@ -45,6 +47,7 @@ public class AreaDistribution extends Distribution {
 	}
 	
 	public void calculate(Configuration config, Cohort cohort) {
+		boolean missingAreas=false;
 		CourseAreas areas = config.getCourseAreas();
 		ArrayList<String>areaList=getFirstIndexOnly(areas.listAllAreas());
 		ArrayList<ArrayList<Integer>> valuesList =new ArrayList<ArrayList<Integer>>();
@@ -52,7 +55,7 @@ public class AreaDistribution extends Distribution {
 		initializeValuesList(valuesList,listSize);
 		CourseEquivalents equivalencies = config.getCourseEquivalencies();
 		
-		for (Transcript transcript : cohort.getTranscripts()) { //this should be extracted
+		for (Transcript transcript : cohort.getTranscripts()) {
 			ArrayList<double[]> totals=new ArrayList<double[]>();
 			initializeTotalsList(totals,listSize);
 			int gradePtIndex=0, creditHourIndex=1;
@@ -75,6 +78,10 @@ public class AreaDistribution extends Distribution {
 						}
 					}
 				}
+				else
+				{
+					missingAreas=true;
+				}
 			}
 			
 			for(String area:areaList) {
@@ -94,7 +101,8 @@ public class AreaDistribution extends Distribution {
 			int index=areaList.indexOf(area);
 			addEntry(area,valuesList.get(index));
 		}
-		
+		if(missingAreas)
+			Messenger.updateArea();
 	}
 	public static void ensureSize(ArrayList<?> list, int size) {
 	    list.ensureCapacity(size);
