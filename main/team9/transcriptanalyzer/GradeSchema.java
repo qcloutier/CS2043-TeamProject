@@ -18,10 +18,10 @@ public class GradeSchema extends Schema {
 		super();
 		this.levels = new ArrayList<GradeLevel>();
 		if(isDefault) {
-			levels.add(new GradeLevel(Grade.match("F"), Grade.match("D")));
-			levels.add(new GradeLevel(Grade.match("C"), Grade.match("C+")));
-			levels.add(new GradeLevel(Grade.match("B-"), Grade.match("B+")));
-			levels.add(new GradeLevel(Grade.match("A-"), Grade.match("A+")));
+			this.addLevel("Fail", Grade.match("F"), Grade.match("D"));
+			this.addLevel("Marginal", Grade.match("C"), Grade.match("C+"));
+			this.addLevel("Meets", Grade.match("B-"), Grade.match("B+"));
+			this.addLevel("Exceeds", Grade.match("A-"), Grade.match("A+"));
 		}
 	}
 	

@@ -1,7 +1,6 @@
 package team9.transcriptanalyzer;
 
 import java.util.List;
-import java.util.ListIterator;
 import java.util.ArrayList;
 
 public class StudentRanks{
@@ -27,7 +26,7 @@ public class StudentRanks{
 				creditHours += course.getCreditHours();
 				completedCourses.add(course.getID());
 			}
-			for(int i = levelNames.size() - 1; i >= 0; i--) {
+			for(int i = levelNames.size()-1; i >= 0; i--) {
 				String levelName = levelNames.get(i);
 				if(rankSchema.getMinCreditHours(levelName) < creditHours) {
 					List<String> requiredCourses = rankSchema.getRequiredCourses(levelName);
@@ -46,7 +45,7 @@ public class StudentRanks{
 	
 	public String[][] listRankTally() {
 		String[][] rankTallies = new String[2][levelNames.size()];
-		for(int i = 0; i < rankTallies.length; i++) {
+		for(int i = 0; i < rankTallies[0].length; i++) {
 			rankTallies[0][i] = levelNames.get(i);
 			rankTallies[1][i] = levelTally.get(i).toString();
 		}

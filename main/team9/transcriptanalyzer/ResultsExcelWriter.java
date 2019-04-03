@@ -36,6 +36,8 @@ public class ResultsExcelWriter implements ResultsWriter {
 			writeDistribution(data.getRawDistribution(), "RAW", outputExcel);
 			writeDistribution(data.getAreaDistribution(), "AREA", outputExcel);
 			
+			writeStudentRanks(data.getStudentRanks(), outputExcel);
+			
 			outputExcel.write(new FileOutputStream(file));
 		}
 	}
@@ -116,6 +118,15 @@ public class ResultsExcelWriter implements ResultsWriter {
 				maxNumRequiredCourses = rankSchema.getRequiredCourses(levelNames.get(i)).size();
 			}
 		}
+		for(int i = 0; i < maxNumRequiredCourses; i++) {
+			Row nextRow = rankSchemaSheet.createRow(i+2);
+			for(int j = 0; j < levelNames.size(); j++) {
+				if(rankSchema.getRequiredCourses(levelNames.get(j)).size() > i) {
+					Cell c = nextRow.createCell(j);
+					c.setCellValue(rankSchema.getRequiredCourses(levelNames.get(j)).get(i));
+				}
+			}
+		}
 	}
 	
 	private void writeDistribution(Distribution distribution, String sheetName, Workbook workbook) {
@@ -126,6 +137,18 @@ public class ResultsExcelWriter implements ResultsWriter {
 			for(int j = 0; j < distributionStrings[i].length; j++) {
 				Cell c = nextRow.createCell(j);
 				c.setCellValue(distributionStrings[i][j]);
+			}
+		}
+	}
+	
+	private void writeStudentRanks(StudentRanks studentRanks, Workbook workbook) {
+		String[][] rankTallies = studentRanks.listRankTally();
+		Sheet studentRankSheet = workbook.createSheet("Student Ranks");
+		for(int i = 0; i < rankTallies.length; i++) {
+			Row nextRow = studentRankSheet.createRow(i);
+			for(int j = 0; j < rankTallies[i].length; j++) {
+				Cell c = nextRow.createCell(j);
+				c.setCellValue(rankTallies[i][j]);
 			}
 		}
 	}

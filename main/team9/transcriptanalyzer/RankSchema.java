@@ -18,10 +18,10 @@ public class RankSchema extends Schema {
 		super();
 		this.levels = new ArrayList<RankLevel>();
 		if(isDefault) {
-			levels.add(new RankLevel(0, new ArrayList<String>()));
-			levels.add(new RankLevel(40, new ArrayList<String>()));
-			levels.add(new RankLevel(80, new ArrayList<String>()));
-			levels.add(new RankLevel(120, new ArrayList<String>()));
+			this.addLevel("Freshman", 0, new ArrayList<String>());
+			this.addLevel("Sophomore", 40, new ArrayList<String>());
+			this.addLevel("Junior", 80, new ArrayList<String>());
+			this.addLevel("Senior", 120, new ArrayList<String>());
 		}
 		
 	}
