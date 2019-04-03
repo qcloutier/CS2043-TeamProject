@@ -72,7 +72,7 @@ public class ConfigurationExcelReader implements ConfigurationReader {
 	
 	private GradeSchema parseGradeSchema(Sheet gradeSchema) {
 
-		GradeSchema result = new GradeSchema();
+		GradeSchema result = new GradeSchema(false);
 		
 		Row names = gradeSchema.getRow(0);
 		Row lower = gradeSchema.getRow(1);
@@ -91,7 +91,7 @@ public class ConfigurationExcelReader implements ConfigurationReader {
 	
 	private RankSchema parseRankSchema(Sheet rankSchema) {
 		
-		RankSchema result = new RankSchema();
+		RankSchema result = new RankSchema(false);
 		for (int c=0; c<rankSchema.getRow(0).getLastCellNum(); c++) {
 			
 			String name = rankSchema.getRow(0).getCell(c).getStringCellValue();
