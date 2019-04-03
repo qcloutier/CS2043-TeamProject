@@ -1,20 +1,38 @@
 package team9.transcriptanalyzer;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelWriter{
+/**
+ * Implementation of ResultsWriter for Excel files.
+ * @author mholt1 Created on 3/?/19.
+ * @author qcloutier Updated on 4/2/19.
+ */
+public class ResultsExcelWriter implements ResultsWriter {
+	
+	public void write(File file, Results data) throws IOException {
+		
+		try (Workbook outputExcel = new XSSFWorkbook();) {
+			
+			writeCourseAreas(data.getConfiguration().getCourseAreas(), outputExcel);
+			writeCourseEquivalents(data.getConfiguration().getCourseEquivalencies(), outputExcel);
+			writeGradeSchema(data.getConfiguration().getGradeSchema(), outputExcel);
+			writeRankSchema(data.getConfiguration().getRankSchema(), outputExcel);
+			
+			writeDistribution(data.getRawDistribution(), "RAW", outputExcel);
+			writeDistribution(data.getAreaDistribution(), "AREA", outputExcel);
+			
+			outputExcel.write(new FileOutputStream(file));
+		}
+	}
 	
 	public static void writeCourseEquivalents(CourseEquivalents courseEquivalents, Workbook workbook) {
 		Sheet courseEquivsSheet = workbook.createSheet("Course Equivalents");
@@ -94,11 +112,11 @@ public class ExcelWriter{
 		}
 	}
 	
-	public static void writeDistribution(Distribution distribution, Workbook workbook) {
-		Sheet rawDistributionSheet = workbook.createSheet("Raw Distribution");
+	public static void writeDistribution(Distribution distribution, String sheetName, Workbook workbook) {
+		Sheet distributionSheet = workbook.createSheet(sheetName);
 		String[][] distributionStrings = distribution.listDistribution();
 		for(int i = 0; i < distributionStrings.length; i++) {
-			Row nextRow = rawDistributionSheet.createRow(i);
+			Row nextRow = distributionSheet.createRow(i);
 			for(int j = 0; j < distributionStrings[i].length; j++) {
 				Cell c = nextRow.createCell(j);
 				c.setCellValue(distributionStrings[i][j]);
@@ -106,11 +124,4 @@ public class ExcelWriter{
 		}
 	}
 	
-	public static void writeToFile(Workbook workbook, File outputFile) throws FileNotFoundException, IOException {
-		FileOutputStream out = new FileOutputStream(outputFile);
-		workbook.write(out);
-		
-		out.close();//FileOutputStream is closed before the workbook is closed.
-		workbook.close();
-	}
 }

@@ -12,13 +12,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 /**
- * Temporary class with methods for parsing the Excel configuration file.
- * Will hopefully be refactored into something better.
- * @author qcloutier Created on 3/30/19.
+ * Implementation of ConfigurationReader for Excel files.
+ * @author qcloutier Created on 3/30/19, updated on 4/2/19.
  */
-public class ExcelReader {
+public class ConfigurationExcelReader implements ConfigurationReader {
 	
-	public static Configuration parse(File file) throws IOException {
+	public Configuration read(File file) throws IOException {
 		
 		try (Workbook inputExcel = WorkbookFactory.create(file)) {
 			
@@ -31,7 +30,7 @@ public class ExcelReader {
 		}
 	}
 	
-	public static CourseAreas parseAreas(Sheet courseAreas) {
+	private CourseAreas parseAreas(Sheet courseAreas) {
 		
 		CourseAreas results = new CourseAreas();
 		for (int c=0; c<courseAreas.getRow(0).getLastCellNum(); c++) {
@@ -51,7 +50,7 @@ public class ExcelReader {
 		return results;
 	}
 	
-	public static CourseEquivalents parseEquivalents(Sheet courseEqs) {
+	private CourseEquivalents parseEquivalents(Sheet courseEqs) {
 		
 		CourseEquivalents results = new CourseEquivalents();
 		for (int c=0; c<courseEqs.getRow(0).getLastCellNum(); c++) {
@@ -71,7 +70,7 @@ public class ExcelReader {
 		return results;
 	}
 	
-	public static GradeSchema parseGradeSchema(Sheet gradeSchema) {
+	private GradeSchema parseGradeSchema(Sheet gradeSchema) {
 
 		GradeSchema result = new GradeSchema();
 		
@@ -90,7 +89,7 @@ public class ExcelReader {
 		return result;
 	}
 	
-	public static RankSchema parseRankSchema(Sheet rankSchema) {
+	private RankSchema parseRankSchema(Sheet rankSchema) {
 		
 		RankSchema result = new RankSchema();
 		for (int c=0; c<rankSchema.getRow(0).getLastCellNum(); c++) {
@@ -111,18 +110,6 @@ public class ExcelReader {
 		}
 		
 		return result;
-	}
-	
-	public static void main(String[]args) throws Exception {
-		
-		Workbook wb = WorkbookFactory.create(new File("demo/IO Spec Input.xlsx"));
-		
-		System.out.println(parseAreas(wb.getSheet("Course Areas")));
-		System.out.println(parseEquivalents(wb.getSheet("Course Equivalents")));
-		System.out.println(parseGradeSchema(wb.getSheet("Grade Schema")));
-		System.out.println(parseRankSchema(wb.getSheet("Rank Schema")));
-		
-		System.out.println(parse(new File("demo/IO Spec Input.xlsx")));
 	}
 	
 }
