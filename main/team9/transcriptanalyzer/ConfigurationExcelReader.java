@@ -17,7 +17,13 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  */
 public class ConfigurationExcelReader implements ConfigurationReader {
 	
-	public Configuration read(File file) throws IOException {
+	private File file;
+	
+	public ConfigurationExcelReader(File file) {
+		this.file = file;
+	}
+	
+	public Configuration read() throws IOException {
 		
 		try (Workbook inputExcel = WorkbookFactory.create(file)) {
 			

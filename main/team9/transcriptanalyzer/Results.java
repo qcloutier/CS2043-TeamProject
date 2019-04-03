@@ -8,7 +8,9 @@ package team9.transcriptanalyzer;
 public class Results {
 	
 	private Configuration configuration;
+	
 	private RawDistribution rawDistribution;
+	
 	private AreaDistribution areaDistribution;
 	
 	public Results(Configuration config, RawDistribution rawDist, AreaDistribution areaDist) {
