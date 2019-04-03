@@ -32,9 +32,11 @@ public class Runner {
 			rawDist.calculate(configObj, cohort);
 			AreaDistribution areaDist = new AreaDistribution(configObj.getGradeSchema());
 			areaDist.calculate(configObj, cohort);
+			StudentRanks studentRanks = new StudentRanks(configObj.getRankSchema());
+			studentRanks.calculate(cohort);
 			
 			// Write to output file
-			Results resultsObj = new Results(configObj, rawDist, areaDist);
+			Results resultsObj = new Results(configObj, rawDist, areaDist, studentRanks);
 			ResultsFactory.determine(resultsFile).write(resultsObj);
 
 			Messenger.success();
