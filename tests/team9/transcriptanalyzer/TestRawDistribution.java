@@ -2,13 +2,11 @@ package team9.transcriptanalyzer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.Arrays;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests the calculations done by RawDistribution.
+ * Tests RawDistribution, mainly the calculations done by it.
  * @author qcloutier Created on 4/4/19.
  */
 class TestRawDistribution {
@@ -16,7 +14,6 @@ class TestRawDistribution {
 	Transcript tNormal = null;
 	Transcript tRepeated = null;
 	Transcript tEquivalency = null;
-	Transcript tNoArea = null;
 	Transcript tNoGrade = null;
 	
 	Configuration configuration = null;
@@ -30,10 +27,6 @@ class TestRawDistribution {
 		RankSchema rs = new RankSchema(true);
 		
 		CourseAreas ca = new CourseAreas();
-		ca.addArea("CS2043", "CS");
-		ca.addArea("CS3997", "CS");
-		ca.addArea("CHEM1982", "CHEM");
-		
 		CourseEquivalents ce = new CourseEquivalents();
 		ce.addEquivalency("CHEM1882", "CHEM1982");
 		
@@ -54,13 +47,32 @@ class TestRawDistribution {
 		tEquivalency = new Transcript();
 		tEquivalency.addCourse(new TranscriptCourse("FR01A", "CHEM1882", 5.00, Grade.A, "2018/FA"));
 		
-		// A transcript with a course with no area
-		tNoArea = new Transcript();
-		tNoArea.addCourse(new TranscriptCourse("FR01A", "HIST2104", 3.00, Grade.B, "2018/FA"));
-		
 		// A transcript with a course with no grade value
 		tNoGrade = new Transcript();
 		tNoGrade.addCourse(new TranscriptCourse("FR01A", "ECECOOP", 0.00, Grade.NA, "2018/FA"));
+	}
+	
+	@Test
+	void testConstructor() {
+		
+		distribution = new RawDistribution(new GradeSchema(true));
+		
+		String expected = "[[]]";
+		String actual = distribution.toString();
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testGetSchema() {
+		
+		GradeSchema expected = new GradeSchema(true);
+		
+		distribution = new RawDistribution(expected);
+		
+		GradeSchema actual = distribution.getSchema();
+		
+		assertEquals(expected, actual);
 	}
 	
 	@Test
@@ -71,35 +83,102 @@ class TestRawDistribution {
 		distribution = new RawDistribution(new GradeSchema(true));
 		distribution.calculate(configuration, cohort);
 		
-		String[][] expected = {{"CS2043", "0", "0", "0", "1"}, {"CS3997", "0", "0", "0", "1"}};
-		String[][] actual = distribution.listDistribution();
+		String expected = "[["
+			+ "[CS2043, [0, 0, 0, 0, 1]], "
+			+ "[CS3997, [0, 0, 0, 0, 1]]"
+		+ "]]";
+		String actual = distribution.toString();
 		
-		assertEquals(expected[0], actual[0]);
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	void testCalculateRepeated() {
+		
+		cohort.addTranscript(tRepeated);
+		
 		distribution = new RawDistribution(new GradeSchema(true));
+		distribution.calculate(configuration, cohort);
+		
+		String expected = "[[[CS2043, [0, 1, 1, 0, 0]]]]";
+		String actual = distribution.toString();
+		
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	void testCalculateEquivalency() {
+		
+		cohort.addTranscript(tEquivalency);
+		
 		distribution = new RawDistribution(new GradeSchema(true));
-	}
-	
-	@Test
-	void testCalculateNoArea() {
-		distribution = new RawDistribution(new GradeSchema(true));
+		distribution.calculate(configuration, cohort);
+		
+		String expected = "[[[CHEM1982, [0, 0, 0, 0, 1]]]]";
+		String actual = distribution.toString();
+		
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	void testCalculateNoGrade() {
+		
+		cohort.addTranscript(tNoGrade);
+		
 		distribution = new RawDistribution(new GradeSchema(true));
+		distribution.calculate(configuration, cohort);
+		
+		String expected = "[[[ECECOOP, [1, 0, 0, 0, 0]]]]";
+		String actual = distribution.toString();
+		
+		assertEquals(expected, actual);
 	}
 	
 	@Test
 	void testCalculateAll() {
+		
+		cohort.addTranscript(tNormal);
+		cohort.addTranscript(tRepeated);
+		cohort.addTranscript(tEquivalency);
+		cohort.addTranscript(tNoGrade);
+		
 		distribution = new RawDistribution(new GradeSchema(true));
+		distribution.calculate(configuration, cohort);
+		
+		String expected = "[["
+			+ "[CS2043, [0, 1, 1, 0, 1]], "
+			+ "[CS3997, [0, 0, 0, 0, 1]], "
+			+ "[CHEM1982, [0, 0, 0, 0, 1]], "
+			+ "[ECECOOP, [1, 0, 0, 0, 0]]"
+		+ "]]";
+		String actual = distribution.toString();
+		
+		assertEquals(expected, actual);
+	}
+	
+	@Test
+	void testListDistribution() {
+		
+		cohort.addTranscript(tNormal);
+		
+		distribution = new RawDistribution(new GradeSchema(true));
+		distribution.calculate(configuration, cohort);
+		
+		String[][] expected = {
+			{null, "Other", "Fail", "Marginal", "Meets", "Exceeds"}, 
+			{"CS2043", "0", "0", "0", "0", "1"}, 
+			{"CS3997", "0", "0", "0", "0", "1"}
+		};
+		String[][] actual = distribution.listDistribution();
+		
+		boolean result = true;
+		for (int r=1; r<expected.length; r++) {
+			for (int c=0; c<expected[r].length; c++) {
+				result &= expected[r][c].equals(actual[r][c]);
+			}
+		}
+		
+		assertTrue(result);
 	}
 	
 }

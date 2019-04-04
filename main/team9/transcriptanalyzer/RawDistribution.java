@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Defines a RawDistribution for a specific course
  * @author mholt1 Created on 3/16/2019.
- * @author qcloutier Updated on 4/3/19.
+ * @author qcloutier Updated on 4/4/19.
  */
 public class RawDistribution extends Distribution{
 	
@@ -27,13 +27,12 @@ public class RawDistribution extends Distribution{
 		List<String> courseIds = new ArrayList<String>();
 		List<String> levelNames = new ArrayList<String>();
 		List<String> gradeLevelNames = gradeSchema.listNames();
-		levelNames.add(0, "other");
+		levelNames.add(0, "Other");
 		for(int i = 0; i < gradeLevelNames.size(); i++) {
 			levelNames.add(gradeLevelNames.get(i));
 		}
 
 		for(Transcript transcript : cohort.getTranscripts()) {
-			
 			for(TranscriptCourse course : transcript.getCourses()) {
 				
 				Grade grade = course.getGrade();
@@ -51,10 +50,10 @@ public class RawDistribution extends Distribution{
 					courseIds.add(courseName);
 				}
 				for(int i = 1; i < levelNames.size(); i++) {
-					if((grade.asPoint() >= gradeSchema.getLower(levelNames.get(i)).asPoint() && grade.asPoint() <= gradeSchema.getUpper(levelNames.get(i)).asPoint()) || grade.toString() == null) {
+					if((grade.asPoint() >= gradeSchema.getLower(levelNames.get(i)).asPoint() && grade.asPoint() <= gradeSchema.getUpper(levelNames.get(i)).asPoint()) || grade.toString() == "NA") {
 						for(int j = 0; j < entries.size(); j++) {
 							if(entries.get(j).course.equals(courseName)) {
-								if(grade.toString() == null) {
+								if(grade.toString() == "NA") {
 									entries.get(j).values.set(0, entries.get(j).values.get(0) + 1);
 									break;
 								}
@@ -71,7 +70,7 @@ public class RawDistribution extends Distribution{
 	public String[][] listDistribution(){
 		String[][] distributions = new String[entries.size() + 1][entries.get(0).values.size() + 1];
 		List<String> levels = this.getSchema().listNames();
-		distributions[0][1] = "other";
+		distributions[0][1] = "Other";
 		for(int j = 2; j < levels.size() + 2; j++) {
 			distributions[0][j] = levels.get(j-2);
 		}

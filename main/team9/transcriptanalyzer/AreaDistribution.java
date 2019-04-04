@@ -46,17 +46,20 @@ public class AreaDistribution extends Distribution {
 				if(areasContainingCourse!=null) {
 					
 					for(String area:areasContainingCourse) {
-						int currentIndex=areaList.indexOf(area);		
-						double[] currentTotals=totals.get(currentIndex);
-						if(!Double.isNaN(course.getGrade().asPoint())){
-							currentTotals[gradePtIndex]+=course.getGrade().asPoint()*course.getCreditHours();
-							currentTotals[creditHourIndex]+=course.getCreditHours();
+						int currentIndex=areaList.indexOf(area);
+						if (currentIndex >= 0) {
+							double[] currentTotals=totals.get(currentIndex);
+							if(!Double.isNaN(course.getGrade().asPoint())){
+								currentTotals[gradePtIndex]+=course.getGrade().asPoint()*course.getCreditHours();
+								currentTotals[creditHourIndex]+=course.getCreditHours();
+							}
 						}
 					}
 				}
 				else
 				{
 					missingAreas=true;
+					areas.addArea(currentCourse, "UNSORTED");
 				}
 			}
 			
