@@ -12,6 +12,10 @@ import team9.transcriptanalyzer.GradeSchema;
 
 import team9.transcriptanalyzer.RankSchema;
 
+/**
+ * Tests the Schema, GradeSchema, and RankSchema objects.
+ * @author jsudz Created on 4/4/19.
+ */
 class TestSchema {
 
 	GradeSchema defaultGrade;
