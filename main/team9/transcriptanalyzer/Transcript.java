@@ -17,6 +17,7 @@ public class Transcript{
 		courses = new ArrayList<TranscriptCourse>();
 	}
 	
+
 	public void addCourse(TranscriptCourse course) {
 		courses.add(course);
 	}
