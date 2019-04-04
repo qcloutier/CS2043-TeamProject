@@ -18,6 +18,10 @@ public class Transcript{
 		
 	}
 	
+	public Transcript(File file) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public ArrayList<TranscriptCourse> getCourses(){
 		return courses;
 	}
