@@ -1,55 +1,67 @@
 package team9.transcriptanalyzer;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-
+import java.util.Scanner;
 
 /**
- * Implementation of CohortReader for Text files.
+ * Implementation of CohortReader for text files.
  * @author rbannister Created on 4/03/19.
+ * @author qcloutier Created on 4/3/19.
  */
-
 public class CohortTextReader implements CohortReader {
 	
-	ArrayList<TranscriptCourse> courses;
+	private File files;
 	
-	public Cohort fileGetCourse(File file) throws IOException{
+	public CohortTextReader(File files) {
+		this.files = files;
+	}
 	
-		FileReader fr=new FileReader(file);
-		BufferedReader br=new BufferedReader(fr);
-		String line="";
-		String[] courseInfo=null;
-		String separator="\\s\\s+";//regular expression for 2 or more spaces
-		String section;
-		String id;
-		String grade;
-		String term;
-		int expectedElements=7;
+	public Cohort read() throws IOException {
 	
-		while ((line=br.readLine())!=null) {	
-			courseInfo=line.split(separator);
-			if(courseInfo.length==expectedElements) {	
-				section=courseInfo[2];
-				id=courseInfo[1];
-				grade=courseInfo[4];
-				term=courseInfo[6];
-				double creditHours=Double.valueOf(courseInfo[5]);
-				TranscriptCourse currentCourse=new TranscriptCourse(section, id, creditHours, Grade.match(grade),term);
-				courses.add(currentCourse);
-			}
+		Cohort results = new Cohort();
+		for (File file : files.listFiles()) {
+			results.addTranscript(parseTranscript(file));
 		}
-		br.close();
-		fr.close();
-		return null;
+		
+		return results;
 	}
-
-
-	@Override
-	public Cohort read(File file) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	private Transcript parseTranscript(File file) throws IOException {
+		
+		try (Scanner sc = new Scanner(file)) {
+			
+			Transcript results = new Transcript();
+			while (sc.hasNextLine()) {
+				
+				TranscriptCourse value = parseCourse(sc.nextLine());
+				if (value != null) {
+					results.addCourse(value);
+				}
+			}
+			
+			return results;
+		}
 	}
+	
+	private TranscriptCourse parseCourse(String line) {
+
+		String[] data = line.split("\\s\\s*"); // Regex for one or more spaces
+		int length = data.length;
+		
+		if (length > 5) {
+			
+			String id = data[1];
+			String section = data[2];
+			Grade grade = Grade.match(data[length-3]);
+			double creditHours = Double.valueOf(data[length-2]);
+			String term = data[length-1];
+			
+			return new TranscriptCourse(section, id, creditHours, grade, term);
+		}
+		else {
+			return null;
+		}
+	}
+	
 }

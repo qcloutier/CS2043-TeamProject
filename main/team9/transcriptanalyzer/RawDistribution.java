@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 /**
  * Defines a RawDistribution for a specific course
- * @author mholt1 created on 3/16/2019
+ * @author mholt1 Created on 3/16/2019.
+ * @author qcloutier Updated on 4/3/19.
  */
 public class RawDistribution extends Distribution{
 	
@@ -88,9 +89,14 @@ public class RawDistribution extends Distribution{
 		return distributions;
 	}
 	
+	public String toString() {
+		return "[" + entries + "]";
+	}
+	
 	private class RawEntry{
 		
 		public String course;
+		
 		public List<Integer> values;
 		
 		public RawEntry(String course, List<Integer> values) {
@@ -98,6 +104,11 @@ public class RawDistribution extends Distribution{
 			this.values = values;
 			values = new ArrayList<Integer>();
 		}	
+	
+		public String toString() {
+			return "[" + course + ", " + values + "]";
+		}
+		
 	}
 	
 }

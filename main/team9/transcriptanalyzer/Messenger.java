@@ -4,7 +4,8 @@ import java.io.IOException;
 
 /**
  * Provides static methods for providing messages to the user.
- * @author qcloutier Updated on 4/1/19.
+ * @author rbannister Created on 3/?/19.
+ * @author qcloutier Updated on 4/3/19.
  */
 public class Messenger {
 
@@ -58,7 +59,6 @@ public class Messenger {
 			"  Please verify that they are all in the correct format. \n" +
 			"STACK TRACE: \n    "
 		);
-		System.setErr(System.out);
 		e.printStackTrace();
 	}
 	

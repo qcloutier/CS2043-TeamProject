@@ -2,7 +2,7 @@ package team9.transcriptanalyzer;
 
 /**
  * Defines the possible grades for a course.
- * @author qcloutier Created on 3/16/19.
+ * @author qcloutier Created on 3/16/19, updated on 4/3/19.
  */
 public enum Grade {
 	
@@ -19,6 +19,7 @@ public enum Grade {
 	NA	(Double.NaN, "NA");
 	
 	private final double POINT;
+	
 	private final String LETTER;
 	
 	private Grade(double point, String letter) {

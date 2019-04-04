@@ -2,7 +2,7 @@ package team9.transcriptanalyzer;
 
 /**
  * Overall representation of the configuration file.
- * @author qcloutier Created on 3/20/19, last updated on 3/30/19.
+ * @author qcloutier Created on 3/20/19, updated on 3/30/19.
  */
 public class Configuration {
 

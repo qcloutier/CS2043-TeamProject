@@ -17,6 +17,7 @@ public class GradeSchema extends Schema {
 	public GradeSchema(boolean isDefault) {
 		super();
 		this.levels = new ArrayList<GradeLevel>();
+		
 		if(isDefault) {
 			this.addLevel("Fail", Grade.match("F"), Grade.match("D"));
 			this.addLevel("Marginal", Grade.match("C"), Grade.match("C+"));

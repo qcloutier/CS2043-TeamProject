@@ -17,6 +17,7 @@ public class RankSchema extends Schema {
 	public RankSchema(boolean isDefault) {
 		super();
 		this.levels = new ArrayList<RankLevel>();
+		
 		if(isDefault) {
 			this.addLevel("Freshman", 0, new ArrayList<String>());
 			this.addLevel("Sophomore", 40, new ArrayList<String>());

@@ -3,10 +3,18 @@ package team9.transcriptanalyzer;
 import java.util.List;
 import java.util.ArrayList;
 
-public class StudentRanks{
+/**
+ * Defines counts of students in all ranks in a given ranking schema.
+ * @author mholt1 Created on 4/3/19.
+ * @author jsudz Created on 4/3/19.
+ * @author qcloutier Updated on 4/3/19.
+ */
+public class StudentRanks {
 	
 	private RankSchema rankSchema;
+	
 	private List<String> levelNames;
+	
 	private List<Integer> levelTally;
 	
 	public StudentRanks(RankSchema rankSchema) {
@@ -51,4 +59,9 @@ public class StudentRanks{
 		}
 		return rankTallies;
 	}
+	
+	public String toString() {
+		return "[" + rankSchema + ", " + levelNames + ", " + levelTally + "]";
+	}
+	
 }
