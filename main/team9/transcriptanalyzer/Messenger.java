@@ -18,7 +18,7 @@ public class Messenger {
 			"  To run the Transcript Analyzer, please provide the following: \n" + 
 			"    1. Configuration input file (.xlsx or .xls) \n" + 
 			"    2. Cohort folder containing transcripts (.txt) \n" +
-			"    3. Results output file (.xlsx or .xls) \n" +
+			"    3. Results output file (.xlsx) \n" +
 			"  These values must be provided in that order when running the program, i.e.: \n" +
 			"    java -jar TranscriptAnalyzer.jar <Configuration.xlsx> <Cohort> <Results.xlsx> \n"
 		);

@@ -8,25 +8,34 @@ package team9.transcriptanalyzer;
 public class Results {
 	
 	private Configuration configuration;
+	
 	private RawDistribution rawDistribution;
+	
 	private AreaDistribution areaDistribution;
 	
-	public Results(Configuration config, RawDistribution rawDist, AreaDistribution areaDist) {
+	private StudentRanks studentRanks;
+	
+	public Results(Configuration config, RawDistribution rawDist, AreaDistribution areaDist, StudentRanks studentRanks) {
 		this.configuration = config;
 		this.rawDistribution = rawDist;
 		this.areaDistribution = areaDist;
+		this.studentRanks = studentRanks;
 	}
 	
 	public Configuration getConfiguration() {
-		return configuration;
+		return this.configuration;
 	}
 
 	public RawDistribution getRawDistribution() {
-		return rawDistribution;
+		return this.rawDistribution;
 	}
 
 	public AreaDistribution getAreaDistribution() {
-		return areaDistribution;
+		return this.areaDistribution;
+	}
+	
+	public StudentRanks getStudentRanks() {
+		return this.studentRanks;
 	}
 
 	public String toString() {

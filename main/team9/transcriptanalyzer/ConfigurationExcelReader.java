@@ -17,12 +17,28 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
  */
 public class ConfigurationExcelReader implements ConfigurationReader {
 	
-	public Configuration read(File file) throws IOException {
+	private File file;
+	
+	public ConfigurationExcelReader(File file) {
+		this.file = file;
+	}
+	
+	public Configuration read() throws IOException {
 		
 		try (Workbook inputExcel = WorkbookFactory.create(file)) {
+			GradeSchema gs;
+			try {
+				gs = parseGradeSchema(inputExcel.getSheet("Grade Schema"));
+			} catch(Exception e) {
+				gs = new GradeSchema(true);
+			}
+			RankSchema rs;
+			try {
+				rs = parseRankSchema(inputExcel.getSheet("Rank Schema"));
+			} catch(Exception e) {
+				rs = new RankSchema(true);
+			}
 			
-			GradeSchema gs = parseGradeSchema(inputExcel.getSheet("Grade Schema"));
-			RankSchema rs = parseRankSchema(inputExcel.getSheet("Rank Schema"));
 			CourseAreas ca = parseAreas(inputExcel.getSheet("Course Areas"));
 			CourseEquivalents cs = parseEquivalents(inputExcel.getSheet("Course Equivalents"));
 		
@@ -72,7 +88,7 @@ public class ConfigurationExcelReader implements ConfigurationReader {
 	
 	private GradeSchema parseGradeSchema(Sheet gradeSchema) {
 
-		GradeSchema result = new GradeSchema();
+		GradeSchema result = new GradeSchema(false);
 		
 		Row names = gradeSchema.getRow(0);
 		Row lower = gradeSchema.getRow(1);
@@ -91,7 +107,7 @@ public class ConfigurationExcelReader implements ConfigurationReader {
 	
 	private RankSchema parseRankSchema(Sheet rankSchema) {
 		
-		RankSchema result = new RankSchema();
+		RankSchema result = new RankSchema(false);
 		for (int c=0; c<rankSchema.getRow(0).getLastCellNum(); c++) {
 			
 			String name = rankSchema.getRow(0).getCell(c).getStringCellValue();
