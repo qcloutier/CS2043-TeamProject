@@ -5,6 +5,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Test of the AreaDistribution class.
+ * @author mholt1 Created on 4/4/19.
+ */
 class TestAreaDistribution {
 
 	GradeSchema gs;
