@@ -22,29 +22,6 @@ public class AreaDistribution extends Distribution {
 		entries.add(new AreaEntry(area, values));
 	}
 	
-	public String[][] listDistribution(){
-
-		GradeSchema gradeSchema=super.getSchema();
-		List<String> names=gradeSchema.listNames();
-		int rowLength=names.size()+1;
-		int colLength=entries.size()+1;
-		String[][] output=new String[colLength][rowLength];
-		
-		for (int i=1; i<rowLength; i++) {
-			output[0][i]=names.get(i-1);
-		}
-		
-		for(AreaEntry entry:entries) {
-			int index=entries.indexOf(entry)+1;
-			output[index][0]=entry.getArea();
-			int counter=1;
-				for(int tally:entry.getValues()) {
-					output[index][counter++]=Integer.toString(tally);
-				}
-		}
-		return output;
-	}
-	
 	public void calculate(Configuration config, Cohort cohort) {
 		boolean missingAreas=false;
 		CourseAreas areas = config.getCourseAreas();
@@ -103,7 +80,31 @@ public class AreaDistribution extends Distribution {
 		if(missingAreas)
 			Messenger.updateArea();
 	}
-	public static void ensureSize(ArrayList<?> list, int size) {
+	
+	public String[][] listDistribution() {
+
+		GradeSchema gradeSchema=super.getSchema();
+		List<String> names=gradeSchema.listNames();
+		int rowLength=names.size()+1;
+		int colLength=entries.size()+1;
+		String[][] output=new String[colLength][rowLength];
+		
+		for (int i=1; i<rowLength; i++) {
+			output[0][i]=names.get(i-1);
+		}
+		
+		for(AreaEntry entry:entries) {
+			int index=entries.indexOf(entry)+1;
+			output[index][0]=entry.area;
+			int counter=1;
+				for(int tally:entry.values) {
+					output[index][counter++]=Integer.toString(tally);
+				}
+		}
+		return output;
+	}
+	
+	private void ensureSize(ArrayList<?> list, int size) {
 	    list.ensureCapacity(size);
 	    while (list.size() < size) {
 	        list.add(null);
@@ -125,7 +126,7 @@ public class AreaDistribution extends Distribution {
 		return row;
 	}
 	
-	private static double[] emptyTotalsRow() {
+	private double[] emptyTotalsRow() {
 		return new double[] {0,0};
 	}
 	
@@ -150,9 +151,14 @@ public class AreaDistribution extends Distribution {
 		return -1;
 	}
 	
+	public String toString() {
+		return "[" + entries + "]";
+	}
+	
 	private class AreaEntry{
 		
 		public String area;
+		
 		public List<Integer> values;
 		
 		public AreaEntry(String area, List<Integer> values) {
@@ -160,12 +166,8 @@ public class AreaDistribution extends Distribution {
 			this.values = values;
 		}
 		
-		public String getArea() {
-			return area;
-		}
-		
-		public List<Integer> getValues(){
-			return values;
+		public String toString() {
+			return "[" + area + ", " + values + "]";
 		}
 		
 	}

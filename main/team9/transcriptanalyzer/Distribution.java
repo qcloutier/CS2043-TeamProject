@@ -16,8 +16,8 @@ public abstract class Distribution{
 		return this.schema;
 	}
 	
-	abstract void calculate(Configuration config, Cohort cohort);
+	public abstract void calculate(Configuration config, Cohort cohort);
 	
-	abstract String[][] listDistribution();
+	public abstract String[][] listDistribution();
 	
 }

@@ -19,6 +19,7 @@ public enum Grade {
 	NA	(Double.NaN, "NA");
 	
 	private final double POINT;
+	
 	private final String LETTER;
 	
 	private Grade(double point, String letter) {
