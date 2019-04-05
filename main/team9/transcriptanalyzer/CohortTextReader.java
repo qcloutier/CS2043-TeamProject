@@ -20,10 +20,24 @@ public class CohortTextReader implements CohortReader {
 	public Cohort read() throws IOException {
 	
 		Cohort results = new Cohort();
+		boolean skipFlag = false;
+		
 		for (File file : files.listFiles()) {
-			results.addTranscript(parseTranscript(file));
+			
+			// Skip transcript if any error occurs while parsing
+			try { 
+				Transcript t = parseTranscript(file);
+				results.addTranscript(t);
+			}
+			catch (Exception e) { 
+				skipFlag = true;
+			};
 		}
 		
+		if (skipFlag) {
+			Messenger.parseError();
+		}
+
 		return results;
 	}
 	
@@ -45,21 +59,21 @@ public class CohortTextReader implements CohortReader {
 	}
 	
 	private TranscriptCourse parseCourse(String line) {
-
-		String[] data = line.split("\\s\\s*"); // Regex for one or more spaces
-		int length = data.length;
 		
-		if (length > 5) {
+		try (Scanner scan = new Scanner(line);) {
 			
-			String id = data[1];
-			String section = data[2];
-			Grade grade = Grade.match(data[length-3]);
-			double creditHours = Double.valueOf(data[length-2]);
-			String term = data[length-1];
+			if (scan.hasNext()) { // Skip blank lines
+				scan.useDelimiter("\\s\\s\\s*"); // Parse on two or more spaces
+				
+				String id = scan.next();
+				String section = scan.next();
+				scan.next(); // Ignore course name
+				Grade grade = Grade.match(scan.next());
+				double creditHours = scan.nextDouble();
+				String term = scan.next();
+				return new TranscriptCourse(id, section, grade, creditHours, term);
+			}
 			
-			return new TranscriptCourse(section, id, creditHours, grade, term);
-		}
-		else {
 			return null;
 		}
 	}

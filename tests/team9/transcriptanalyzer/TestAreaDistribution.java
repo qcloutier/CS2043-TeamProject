@@ -42,15 +42,15 @@ class TestAreaDistribution {
 		config = new Configuration(gs, rs, ca, ce);
 		
 		t1 = new Transcript();
-		t1.addCourse(new TranscriptCourse("FR01A", "MATH1003", 3, Grade.BM, "2017/FA"));
-		t1.addCourse(new TranscriptCourse("FR01B", "BIOL1000", 4, Grade.A, "2018/WI"));
+		t1.addCourse(new TranscriptCourse("MATH1003", "FR01A", Grade.BM, 3, "2017/FA"));
+		t1.addCourse(new TranscriptCourse("BIOL1000", "FR01B", Grade.A, 4, "2018/WI"));
 		
 		t2 = new Transcript();
-		t2.addCourse(new TranscriptCourse("FR03B", "MATH1053", 4, Grade.C, "2019/WI"));
-		t2.addCourse(new TranscriptCourse("FR02A", "MATH1503", 4, Grade.D, "2018/FA"));
+		t2.addCourse(new TranscriptCourse("MATH1053", "FR03B", Grade.C, 4, "2019/WI"));
+		t2.addCourse(new TranscriptCourse("MATH1503", "FR02A", Grade.D, 4, "2018/FA"));
 		
 		t3 = new Transcript();
-		t3.addCourse(new TranscriptCourse("FR01A", "ECE4093", 5, Grade.BP, "2016/FA"));
+		t3.addCourse(new TranscriptCourse("ECE4093", "FR01A", Grade.BP, 5, "2016/FA"));
 		
 		cohort = new Cohort();
 	}	

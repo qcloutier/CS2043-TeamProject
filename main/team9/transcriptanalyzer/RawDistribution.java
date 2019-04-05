@@ -12,6 +12,10 @@ public class RawDistribution extends Distribution{
 	
 	private List<RawEntry> entries;
 	
+	/**
+	 * Creates a RawDistribution and initializes its lists.
+	 * @param schema The grade schema to use.
+	 */
 	public RawDistribution(GradeSchema schema) {
 		super(schema);
 		entries = new ArrayList<RawEntry>();
@@ -21,6 +25,11 @@ public class RawDistribution extends Distribution{
 		entries.add(new RawEntry(course, values));
 	}
 	
+	/**
+	 * Calculates the raw distribution given a configuration and cohort.
+	 * @param config The configuration to use for equivalencies.
+	 * @param cohort The cohort with transcripts to process.
+	 */
 	public void calculate(Configuration config, Cohort cohort) {
 		GradeSchema gradeSchema = config.getGradeSchema();
 		CourseEquivalents courseEquivalents = config.getCourseEquivalencies();
@@ -67,6 +76,11 @@ public class RawDistribution extends Distribution{
 		}
 	}
 	
+	/**
+	 * Creates a 2D array of the distributions 
+	 * for easy writing to a file.
+	 * @return The distributions in a 2D array.
+	 */
 	public String[][] listDistribution(){
 		String[][] distributions = new String[entries.size() + 1][entries.get(0).values.size() + 1];
 		List<String> levels = this.getSchema().listNames();
@@ -92,16 +106,23 @@ public class RawDistribution extends Distribution{
 		return "[" + entries + "]";
 	}
 	
+	/**
+	 * Defines an individual entry in the raw distribution list.
+	 */
 	private class RawEntry{
 		
 		public String course;
 		
 		public List<Integer> values;
 		
+		/**
+		 * Creates an entry in the raw distributions.
+		 * @param course The ID of the course.
+		 * @param values The counts for the course.
+		 */
 		public RawEntry(String course, List<Integer> values) {
 			this.course = course;
 			this.values = values;
-			values = new ArrayList<Integer>();
 		}	
 	
 		public String toString() {

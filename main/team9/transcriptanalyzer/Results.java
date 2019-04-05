@@ -15,6 +15,13 @@ public class Results {
 	
 	private StudentRanks studentRanks;
 	
+	/**
+	 * Creates a results object.
+	 * @param config The configuration.
+	 * @param rawDist The raw distribution.
+	 * @param areaDist The area distribution.
+	 * @param studentRanks The student ranks.
+	 */
 	public Results(Configuration config, RawDistribution rawDist, AreaDistribution areaDist, StudentRanks studentRanks) {
 		this.configuration = config;
 		this.rawDistribution = rawDist;
@@ -22,18 +29,34 @@ public class Results {
 		this.studentRanks = studentRanks;
 	}
 	
+	/**
+	 * Retrieves the configuration.
+	 * @return The configuration.
+	 */
 	public Configuration getConfiguration() {
 		return this.configuration;
 	}
 
+	/**
+	 * Retrieves the raw distribution.
+	 * @return The raw distribution.
+	 */
 	public RawDistribution getRawDistribution() {
 		return this.rawDistribution;
 	}
 
+	/**
+	 * Retrieves the area distribution.
+	 * @return The area distribution.
+	 */
 	public AreaDistribution getAreaDistribution() {
 		return this.areaDistribution;
 	}
 	
+	/**
+	 * Retrieves the student ranks.
+	 * @return The student ranks.
+	 */
 	public StudentRanks getStudentRanks() {
 		return this.studentRanks;
 	}

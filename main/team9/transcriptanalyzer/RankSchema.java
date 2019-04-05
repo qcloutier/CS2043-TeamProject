@@ -27,6 +27,12 @@ public class RankSchema extends Schema {
 		
 	}
 
+	/**
+	 * Adds a level to the schema.
+	 * @param name The name of the level.
+	 * @param minCreditHours The minimum required credit hours.
+	 * @param requiredCourses The required courses.
+	 */
 	public void addLevel(String name, int minCreditHours, List<String> requiredCourses) {
 		if (!listNames().contains(name)) {
 			addName(name);

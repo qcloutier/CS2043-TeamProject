@@ -1,7 +1,6 @@
 package team9.transcriptanalyzer;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * The starting point for execution of the system.
@@ -42,9 +41,6 @@ public class Runner {
 			ResultsFactory.determine(resultsFile).write(resultsObj);
 
 			Messenger.success();
-		}
-		catch (IOException e) {
-			Messenger.formatError(e);
 		}
 		catch (Exception e) {
 			Messenger.exception(e);
