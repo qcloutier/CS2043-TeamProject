@@ -26,6 +26,12 @@ public class GradeSchema extends Schema {
 		}
 	}
 	
+	/**
+	 * Adds a level to the schema.
+	 * @param name The name of the level.
+	 * @param lower The lower grade.
+	 * @param upper The upper grade.
+	 */
 	public void addLevel(String name, Grade lower, Grade upper) {
 		if (!listNames().contains(name)) {
 			addName(name);

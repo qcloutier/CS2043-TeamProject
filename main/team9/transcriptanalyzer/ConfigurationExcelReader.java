@@ -14,6 +14,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 /**
  * Implementation of ConfigurationReader for Excel files.
  * @author qcloutier Created on 3/30/19, updated on 4/2/19.
+ * @author mholt1 Updated on 4/3/19.
  */
 public class ConfigurationExcelReader implements ConfigurationReader {
 	
@@ -26,18 +27,14 @@ public class ConfigurationExcelReader implements ConfigurationReader {
 	public Configuration read() throws IOException {
 		
 		try (Workbook inputExcel = WorkbookFactory.create(file)) {
+		
 			GradeSchema gs;
-			try {
-				gs = parseGradeSchema(inputExcel.getSheet("Grade Schema"));
-			} catch(Exception e) {
-				gs = new GradeSchema(true);
-			}
+			try { gs = parseGradeSchema(inputExcel.getSheet("Grade Schema")); } 
+			catch(Exception e) { gs = new GradeSchema(true); }
+			
 			RankSchema rs;
-			try {
-				rs = parseRankSchema(inputExcel.getSheet("Rank Schema"));
-			} catch(Exception e) {
-				rs = new RankSchema(true);
-			}
+			try { rs = parseRankSchema(inputExcel.getSheet("Rank Schema")); } 
+			catch(Exception e) { rs = new RankSchema(true); }
 			
 			CourseAreas ca = parseAreas(inputExcel.getSheet("Course Areas"));
 			CourseEquivalents cs = parseEquivalents(inputExcel.getSheet("Course Equivalents"));

@@ -35,21 +35,21 @@ class TestRawDistribution {
 		
 		// A transcript with nothing special
 		tNormal = new Transcript();
-		tNormal.addCourse(new TranscriptCourse("FR01B", "CS2043", 4.00, Grade.A, "2018/WI"));
-		tNormal.addCourse(new TranscriptCourse("FR01A", "CS3997", 3.00, Grade.AM, "2019/FA"));
+		tNormal.addCourse(new TranscriptCourse("CS2043", "FR01B", Grade.A, 4.00, "2018/WI"));
+		tNormal.addCourse(new TranscriptCourse("CS3997", "FR01A", Grade.AM, 3.00, "2019/FA"));
 		
 		// A transcript with a repeated course
 		tRepeated = new Transcript();
-		tRepeated.addCourse(new TranscriptCourse("FR01A", "CS2043", 4.00, Grade.F, "2018/FA"));
-		tRepeated.addCourse(new TranscriptCourse("FR01B", "CS2043", 4.00, Grade.C, "2019/WI"));
+		tRepeated.addCourse(new TranscriptCourse("CS2043", "FR01A", Grade.F, 4.00, "2018/FA"));
+		tRepeated.addCourse(new TranscriptCourse("CS2043", "FR01B", Grade.C, 4.00, "2019/WI"));
 		
 		// A transcript with a course equivalency
 		tEquivalency = new Transcript();
-		tEquivalency.addCourse(new TranscriptCourse("FR01A", "CHEM1882", 5.00, Grade.A, "2018/FA"));
+		tEquivalency.addCourse(new TranscriptCourse("CHEM1882", "FR01A", Grade.A, 5.00, "2018/FA"));
 		
 		// A transcript with a course with no grade value
 		tNoGrade = new Transcript();
-		tNoGrade.addCourse(new TranscriptCourse("FR01A", "ECECOOP", 0.00, Grade.NA, "2018/FA"));
+		tNoGrade.addCourse(new TranscriptCourse("ECECOOP", "FR01A", Grade.NA, 0.00, "2018/FA"));
 	}
 	
 	@Test

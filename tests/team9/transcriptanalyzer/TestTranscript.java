@@ -11,24 +11,24 @@ import org.junit.jupiter.api.Test;
 class TestTranscript {
 
 	@Test
-	void testTranscriptCourse() {
+	void testGetID() {
 		String section = "abc";
 		String id = "123";
 		double creditHours = 3.5;
 		Grade grade = Grade.AP;
 		String term = "F19";
-		TranscriptCourse c = new TranscriptCourse(section, id, creditHours, grade, term);
+		TranscriptCourse c = new TranscriptCourse(id, section, grade, creditHours, term);
 		assertEquals(c.getID(), id);
 	}
 	
 	@Test
-	void testGetID() {
+	void testGetCreditHours() {
 		String section = "abc";
 		String id = "456";
 		double creditHours = 3.5;
 		Grade grade = Grade.AP;
 		String term = "F19";
-		TranscriptCourse d = new TranscriptCourse(section, id, creditHours, (Grade) grade, term);
+		TranscriptCourse d = new TranscriptCourse(id, section, grade, creditHours, term);
 		assertEquals(d.getCreditHours(), creditHours);
 	}
 

@@ -13,15 +13,24 @@ public class AreaDistribution extends Distribution {
 	
 	private List<AreaEntry> entries;
 	
+	/**
+	 * Creates an AreaDistribution and initializes its lists.
+	 * @param schema The grade schema to use.
+	 */
 	public AreaDistribution(GradeSchema schema) {
 		super(schema);
 		entries = new ArrayList<AreaEntry>();
 	}
 	
-	public void addEntry(String area, List<Integer> values) {
+	private void addEntry(String area, List<Integer> values) {
 		entries.add(new AreaEntry(area, values));
 	}
 	
+	/**
+	 * Calculates the area distribution given a configuration and cohort.
+	 * @param config The configuration to use for areas and equivalencies.
+	 * @param cohort The cohort with transcripts to process.
+	 */
 	public void calculate(Configuration config, Cohort cohort) {
 		boolean missingAreas=false;
 		CourseAreas areas = config.getCourseAreas();
@@ -56,15 +65,13 @@ public class AreaDistribution extends Distribution {
 						}
 					}
 				}
-				else
-				{
+				else {
 					missingAreas=true;
 					areas.addArea(currentCourse, "UNSORTED");
 				}
 			}
 			
 			for(String area:areaList) {
-				
 				int index=areaList.indexOf(area);
 				double[]currentTotals=totals.get(index);
 				double avgGradePt=currentTotals[gradePtIndex]/currentTotals[creditHourIndex];
@@ -84,6 +91,11 @@ public class AreaDistribution extends Distribution {
 			Messenger.updateArea();
 	}
 	
+	/**
+	 * Creates a 2D array of the distributions 
+	 * for easy writing to a file.
+	 * @return The distributions in a 2D array.
+	 */
 	public String[][] listDistribution() {
 
 		GradeSchema gradeSchema=super.getSchema();
@@ -158,12 +170,20 @@ public class AreaDistribution extends Distribution {
 		return "[" + entries + "]";
 	}
 	
+	/**
+	 * Defines an individual entry in the area distribution list.
+	 */
 	private class AreaEntry{
 		
 		public String area;
 		
 		public List<Integer> values;
 		
+		/**
+		 * Creates an entry in the area distributions.
+		 * @param area The name of the area.
+		 * @param values The counts for the area.
+		 */
 		public AreaEntry(String area, List<Integer> values) {
 			this.area = area;
 			this.values = values;

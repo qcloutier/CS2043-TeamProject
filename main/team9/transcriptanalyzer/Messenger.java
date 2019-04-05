@@ -1,7 +1,5 @@
 package team9.transcriptanalyzer;
 
-import java.io.IOException;
-
 /**
  * Provides static methods for providing messages to the user.
  * @author rbannister Created on 3/?/19.
@@ -31,7 +29,7 @@ public class Messenger {
 	public static void success() {
 		System.out.print(
 			"SUCCESS: \n" + 
-			"  All transcripts processed successfully. \n" + 
+			"  Transcripts have been processed. \n" + 
 			"  Results file has been written. \n"
 		);
 	}
@@ -49,17 +47,14 @@ public class Messenger {
 	}
 	
 	/**
-	 * Message to display when an IOException occurs. 
-	 * @param e The IOException, which will have its message displayed.
+	 * Message to display when a transcript could not be parsed.
 	 */
-	public static void formatError(IOException e) {
+	public static void parseError() {
 		System.out.print(
-			"ERROR: \n" + 
-			"  Unable to parse one or more input files. \n" + 
-			"  Please verify that they are all in the correct format. \n" +
-			"STACK TRACE: \n    "
+			"WARNING: \n" + 
+			"  One or more transcripts could not be parsed. \n" + 
+			"  Please check that they are all well-formed. \n"
 		);
-		e.printStackTrace();
 	}
 	
 	/**
