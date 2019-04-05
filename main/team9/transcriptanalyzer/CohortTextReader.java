@@ -2,13 +2,12 @@ package team9.transcriptanalyzer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
  * Implementation of CohortReader for text files.
- * @author rbannister Created on 4/03/19.
- * @author qcloutier Created on 4/3/19.
+ * @author rbannister Created on 4/3/19.
+ * @author qcloutier Updated on 4/5/19.
  */
 public class CohortTextReader implements CohortReader {
 	
@@ -35,6 +34,7 @@ public class CohortTextReader implements CohortReader {
 			};
 		}
 		
+		// Warn the user that a transcript was skipped
 		if (skipFlag) {
 			Messenger.parseError();
 		}
@@ -49,9 +49,9 @@ public class CohortTextReader implements CohortReader {
 			Transcript results = new Transcript();
 			while (sc.hasNextLine()) {
 				
-				TranscriptCourse value = parseCourse(sc.nextLine());
-				if (value != null) {
-					results.addCourse(value);
+				String line = sc.nextLine();
+				if (line != null && !line.isEmpty()) {
+					results.addCourse(parseCourse(line));
 				}
 			}
 			
@@ -61,26 +61,34 @@ public class CohortTextReader implements CohortReader {
 	
 	private TranscriptCourse parseCourse(String line) {
 		
-		try (Scanner scan = new Scanner(line);) {
+		try (Scanner sc = new Scanner(line);) {
 			
-			if (scan.hasNext()) { // Skip blank lines
-				scan.useDelimiter("\\s\\s\\s*"); // Parse on two or more spaces
-				try { // Skip lines with empty grades
-					String id = scan.next();
-					String section = scan.next();
-					scan.next(); // Ignore course name
-					Grade grade = Grade.match(scan.next());
-					double creditHours = scan.nextDouble();
-					String term = scan.next();
-					return new TranscriptCourse(id, section, grade, creditHours, term);
-				}
-				catch(InputMismatchException e) {
-					return null;
-				}
+			String id = sc.next();
+			String section = sc.next();
+			
+			// Skip course name by parsing on two or more spaces
+			sc.useDelimiter("\\s\\s\\s*"); 
+			sc.next(); 
+			sc.useDelimiter("\\s\\s*"); 
+			
+			// Some entries might not have a grade
+			Grade grade;
+			if (!sc.hasNextDouble()) {
+				grade = Grade.match(sc.next());
 			}
 			else {
-				return null;
+				grade = Grade.NA;
 			}
+
+			Double creditHours = sc.nextDouble();
+			
+			// Skip # symbol if present
+			String term = sc.next();
+			if (term.equals("#")) {
+				term = sc.next();
+			}
+				
+			return new TranscriptCourse(id, section, grade, creditHours, term);
 		}
 	}
 	

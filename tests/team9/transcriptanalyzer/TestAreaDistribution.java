@@ -76,7 +76,7 @@ class TestAreaDistribution {
 		cohort.addTranscript(t3);
 		areaDist.calculate(config, cohort);
 		
-		String expected = "[[[Science, [0, 0, 0, 0]], [Core, [0, 0, 1, 0]], [Math, [0, 0, 0, 0]]]]";
+		String expected = "[[[Core, [0, 0, 1, 0]], [Math, [0, 0, 0, 0]], [Science, [0, 0, 0, 0]]]]";
 		
 		assertEquals(expected, areaDist.toString());
 	}
@@ -88,7 +88,7 @@ class TestAreaDistribution {
 		cohort.addTranscript(t2);
 		areaDist.calculate(config, cohort);
 		
-		String expected = "[[[Science, [0, 0, 0, 0]], [Core, [0, 0, 0, 0]], [Math, [0, 1, 0, 0]]]]";
+		String expected = "[[[Core, [0, 0, 0, 0]], [Math, [1, 0, 0, 0]], [Science, [0, 0, 0, 0]]]]";
 		
 		assertEquals(expected, areaDist.toString());
 	}
@@ -100,7 +100,7 @@ class TestAreaDistribution {
 		cohort.addTranscript(t1);
 		areaDist.calculate(config, cohort);
 		
-		String expected = "[[[Science, [0, 0, 0, 1]], [Core, [0, 0, 0, 0]], [Math, [0, 0, 1, 0]]]]";
+		String expected = "[[[Core, [0, 0, 0, 0]], [Math, [0, 0, 1, 0]], [Science, [0, 0, 0, 1]]]]";
 		
 		assertEquals(expected, areaDist.toString());
 	}
@@ -114,7 +114,7 @@ class TestAreaDistribution {
 		cohort.addTranscript(t3);
 		areaDist.calculate(config, cohort);
 		
-		String expected = "[[[Science, [0, 0, 0, 1]], [Core, [0, 0, 1, 0]], [Math, [0, 1, 1, 0]]]]";
+		String expected = "[[[Core, [0, 0, 1, 0]], [Math, [1, 0, 1, 0]], [Science, [0, 0, 0, 1]]]]";
 		
 		assertEquals(expected, areaDist.toString());
 	}
@@ -124,8 +124,8 @@ class TestAreaDistribution {
 		areaDist = new AreaDistribution(gs);
 
 		areaDist.calculate(config, cohort);
-		
-		String expected = "[[[Science, [0, 0, 0, 0]], [Core, [0, 0, 0, 0]], [Math, [0, 0, 0, 0]]]]";
+
+		String expected = "[[[Core, [0, 0, 0, 0]], [Math, [0, 0, 0, 0]], [Science, [0, 0, 0, 0]]]]";
 		
 		assertEquals(expected, areaDist.toString());
 	}
@@ -137,10 +137,10 @@ class TestAreaDistribution {
 		cohort.addTranscript(t1);
 		areaDist.calculate(config, cohort);
 		
-		String[][] expectedArray = {{null, "Fail", "Marginal", "Meets", "Exceeds"},
-							   {"Science", "0", "0", "0", "1"}, 
+		String[][] expectedArray = {{null, "Fail", "Marginal", "Meets", "Exceeds"}, 
 							   {"Core", "0", "0", "0", "0"},
-							   {"Math", "0", "0", "1", "0"}};
+							   {"Math", "0", "0", "1", "0"},
+							   {"Science", "0", "0", "0", "1"}};
 		
 		String[][] actualArray = areaDist.listDistribution();
 		
