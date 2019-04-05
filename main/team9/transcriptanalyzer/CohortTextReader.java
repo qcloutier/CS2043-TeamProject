@@ -65,7 +65,7 @@ public class CohortTextReader implements CohortReader {
 			
 			if (scan.hasNext()) { // Skip blank lines
 				scan.useDelimiter("\\s\\s\\s*"); // Parse on two or more spaces
-				try {
+				try { // Skip lines with empty grades
 					String id = scan.next();
 					String section = scan.next();
 					scan.next(); // Ignore course name
@@ -73,12 +73,14 @@ public class CohortTextReader implements CohortReader {
 					double creditHours = scan.nextDouble();
 					String term = scan.next();
 					return new TranscriptCourse(id, section, grade, creditHours, term);
-				}catch(InputMismatchException e) {
+				}
+				catch(InputMismatchException e) {
 					return null;
 				}
 			}
-			
-			return null;
+			else {
+				return null;
+			}
 		}
 	}
 	
