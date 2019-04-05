@@ -6,8 +6,8 @@ import java.util.ArrayList;
 /**
  * Defines an AreaDistribution for a specific area.
  * @author mholt1 Created on 3/16/19.
- * @author jsudz Updated on 4/1/19.
- * @author qcloutier Updated on 4/3/19.
+ * @author jsudz Updated on 4/5/19.
+ * @author qcloutier Updated on 4/5/19.
  */
 public class AreaDistribution extends Distribution {
 	
@@ -116,6 +116,7 @@ public class AreaDistribution extends Distribution {
 					output[index][counter++]=Integer.toString(tally);
 				}
 		}
+		
 		return output;
 	}
 	
@@ -133,9 +134,9 @@ public class AreaDistribution extends Distribution {
 		return firstIndexList;	
 	}
 	
-	private static List<Integer> emptyValuesRow() {
+	private List<Integer> emptyValuesRow() {
 		List<Integer> row= new ArrayList<Integer>();
-		int rowSize=4;
+		int rowSize=getSchema().listNames().size();
 		for(int i=0;i<rowSize;i++)
 			row.add(0);
 		return row;
@@ -160,9 +161,9 @@ public class AreaDistribution extends Distribution {
 	private int getGradeAsIndex(double grade) {
 		GradeSchema gradeSchema=super.getSchema();
 		List<String> names=gradeSchema.listNames();
-		for(String level:names)
-			if(grade<= gradeSchema.getUpper(level).asPoint())
-				return names.indexOf(level);
+		for(int i=names.size()-1; i>=0; i--)
+			if(grade >= gradeSchema.getLower(names.get(i)).asPoint())
+				return names.indexOf(names.get(i));
 		return -1;
 	}
 	

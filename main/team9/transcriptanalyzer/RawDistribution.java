@@ -82,12 +82,15 @@ public class RawDistribution extends Distribution{
 	 * @return The distributions in a 2D array.
 	 */
 	public String[][] listDistribution(){
+		
 		String[][] distributions = new String[entries.size() + 1][entries.get(0).values.size() + 1];
 		List<String> levels = this.getSchema().listNames();
 		distributions[0][1] = "Other";
+		
 		for(int j = 2; j < levels.size() + 2; j++) {
 			distributions[0][j] = levels.get(j-2);
 		}
+		
 		for(int i = 0; i < entries.size(); i++) {
 			RawEntry nextEntry = entries.get(i);
 			for(int j = 0; j < nextEntry.values.size() + 1; j++) {
@@ -99,6 +102,7 @@ public class RawDistribution extends Distribution{
 				}
 			}
 		}
+		
 		return distributions;
 	}
 	

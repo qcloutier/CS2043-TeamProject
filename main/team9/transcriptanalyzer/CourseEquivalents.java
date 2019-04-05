@@ -76,6 +76,15 @@ public class CourseEquivalents {
 			}
 		}
 		
+		// Sort column contents
+		for (List<String> r : results) {
+			r = r.subList(1, r.size());
+			r.sort((k,v) -> k.compareTo(v));
+		}
+		
+		// Sort order of columns
+		results.sort((k,v) -> k.get(0).compareTo(v.get(0)));
+		
 		return results;
 	}
 	
