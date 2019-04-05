@@ -2,6 +2,7 @@ package team9.transcriptanalyzer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -64,17 +65,22 @@ public class CohortTextReader implements CohortReader {
 			
 			if (scan.hasNext()) { // Skip blank lines
 				scan.useDelimiter("\\s\\s\\s*"); // Parse on two or more spaces
-				
-				String id = scan.next();
-				String section = scan.next();
-				scan.next(); // Ignore course name
-				Grade grade = Grade.match(scan.next());
-				double creditHours = scan.nextDouble();
-				String term = scan.next();
-				return new TranscriptCourse(id, section, grade, creditHours, term);
+				try { // Skip lines with empty grades
+					String id = scan.next();
+					String section = scan.next();
+					scan.next(); // Ignore course name
+					Grade grade = Grade.match(scan.next());
+					double creditHours = scan.nextDouble();
+					String term = scan.next();
+					return new TranscriptCourse(id, section, grade, creditHours, term);
+				}
+				catch(InputMismatchException e) {
+					return null;
+				}
 			}
-			
-			return null;
+			else {
+				return null;
+			}
 		}
 	}
 	
